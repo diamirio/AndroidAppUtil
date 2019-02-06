@@ -12,16 +12,12 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         versionCode rootProject.ext.libVersionCode
         versionName rootProject.ext.libraryVersion
+
+        consumerProguardFiles 'proguard-rules.pro'
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-    }
-
-    buildTypes {
-        release {
-            consumerProguardFiles 'proguard-rules.pro'
-        }
     }
 }
 
