@@ -38,6 +38,12 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
     /**
+     * Networking
+     */
+    def retrofitVersion = '2.5.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+
+    /**
      * Util
      */
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'

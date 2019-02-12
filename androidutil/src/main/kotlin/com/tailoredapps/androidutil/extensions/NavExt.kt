@@ -20,6 +20,8 @@ import android.content.Intent
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 
 
 /**
@@ -46,4 +48,14 @@ fun Fragment.args(vararg params: Pair<String, Any>) = apply { arguments = bundle
 inline fun <reified T : Any> Fragment.argument(key: String, defaultValue: T? = null): Lazy<T> = lazy {
     if (defaultValue == null) arguments?.get(key) as T
     else arguments?.get(key) as? T ?: defaultValue
+}
+
+
+/**
+ * Executes a FragmentManager transaction.
+ */
+inline fun FragmentManager.transaction(func: FragmentTransaction.() -> Unit) {
+    val fragmentTransaction = beginTransaction()
+    fragmentTransaction.func()
+    fragmentTransaction.commit()
 }

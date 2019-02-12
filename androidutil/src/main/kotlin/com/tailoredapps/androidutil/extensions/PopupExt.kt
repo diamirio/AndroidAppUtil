@@ -21,6 +21,7 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
+import androidx.core.view.forEach
 import io.reactivex.Single
 
 
@@ -33,9 +34,10 @@ sealed class RxPopupAction {
 /**
  * Convenience function to show a popup menu for a View.
  */
-fun View.rxPopup(@MenuRes menuId: Int): Single<RxPopupAction> = Single.create { emitter ->
+fun View.rxPopup(@MenuRes menuId: Int, itemsAdapter: ((MenuItem) -> Unit)? = null): Single<RxPopupAction> = Single.create { emitter ->
     val menu = PopupMenu(context, this).apply {
         menuInflater.inflate(menuId, menu)
+        itemsAdapter?.let { adapter -> menu.forEach { adapter.invoke(it) } }
         setOnMenuItemClickListener {
             emitter.onSuccess(RxPopupAction.Selected(it.itemId, it))
             true
@@ -43,6 +45,6 @@ fun View.rxPopup(@MenuRes menuId: Int): Single<RxPopupAction> = Single.create { 
         setOnDismissListener { emitter.onSuccess(RxPopupAction.Cancelled) }
     }
 
-    menu.show()
     emitter.setCancellable { menu.dismiss() }
+    menu.show()
 }

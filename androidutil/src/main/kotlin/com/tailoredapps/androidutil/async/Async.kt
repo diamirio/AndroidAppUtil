@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.extensions
-
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+package com.tailoredapps.androidutil.async
 
 
 /**
- * Inflates a View in a ViewGroup.
+ * Sealed class that represents an asynchronous load of a resource.
  */
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
-    LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+sealed class Async<out T>(val complete: Boolean, val shouldLoad: Boolean) {
+    open operator fun invoke(): T? = null
 
+    object Uninitialized : Async<Nothing>(false, true)
+    object Loading : Async<Nothing>(false, false)
+    data class Error(val error: Throwable) : Async<Nothing>(true, true)
+    data class Success<out T>(val element: T) : Async<T>(true, false) {
+        override operator fun invoke(): T = element
+    }
+}

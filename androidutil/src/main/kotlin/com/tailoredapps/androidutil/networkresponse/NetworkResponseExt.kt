@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.extensions
+package com.tailoredapps.androidutil.networkresponse
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-
+import io.reactivex.Single
 
 /**
- * Inflates a View in a ViewGroup.
+ * Extension function that splits a NetworkResponse Single into an OnSucces or OnError emission.
  */
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
-    LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-
+fun <SuccessType : Any> Single<NetworkResponse<SuccessType>>.splitNetworkResponse(): Single<SuccessType> {
+    return flatMap {
+        when (it) {
+            is NetworkResponse.Success -> Single.just(it.element)
+            is NetworkResponse.ServerError -> Single.error(it.error)
+            is NetworkResponse.NetworkError -> Single.error(it.error)
+        }
+    }
+}

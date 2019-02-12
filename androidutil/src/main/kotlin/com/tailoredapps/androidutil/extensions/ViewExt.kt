@@ -25,8 +25,6 @@ import android.view.inputmethod.InputMethodManager
 
 /**
  * Shows the keyboard for a view and focuses it.
- *
- * @receiver View
  */
 fun View.showKeyBoard() {
     requestFocus()
@@ -36,8 +34,6 @@ fun View.showKeyBoard() {
 
 /**
  * Hides the keyboard for a view and unfocuses it.
- *
- * @receiver View
  */
 fun View.hideKeyboard() {
     val inputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -48,8 +44,6 @@ fun View.hideKeyboard() {
 /**
  * Waits until the view is measured until the function is invoked.
  * @receiver View
- *
- * @param function View.() -> Unit
  */
 inline fun View.afterMeasured(crossinline function: View.() -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

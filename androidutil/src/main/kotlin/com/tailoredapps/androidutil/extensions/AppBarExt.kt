@@ -16,15 +16,15 @@
 
 package com.tailoredapps.androidutil.extensions
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import com.google.android.material.appbar.AppBarLayout
 
 
 /**
- * Inflates a View in a ViewGroup.
+ * Lifts the AppBarLayout according to the scroll of a View.
+ *
+ * canScrollVertically(-1) checks whether a view can no longer scroll upwards.
  */
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
-    LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-
+fun <T : View> AppBarLayout.liftWith(view: T) {
+    view.viewTreeObserver.addOnScrollChangedListener { setLifted(view.canScrollVertically(-1)) }
+}

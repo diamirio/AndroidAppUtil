@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil
+package com.tailoredapps.androidutil.networkresponse
 
+import retrofit2.HttpException
+import java.io.IOException
+
+
+class NetworkUnavailableException : IOException()
 
 /**
- * Sealed class that represents an asynchronous load of a resource.
+ * Sealed class that wraps success or error result of a network call.
  */
-sealed class Async<out T>(val complete: Boolean, val shouldLoad: Boolean) {
-    open operator fun invoke(): T? = null
-
-    object Uninitialized : Async<Nothing>(false, true)
-    object Loading : Async<Nothing>(false, false)
-    data class Error<out T>(val error: Throwable) : Async<T>(true, true)
-    data class Success<out T>(val element: T) : Async<T>(true, false) {
-        override operator fun invoke(): T = element
-    }
+sealed class NetworkResponse<out SuccessType : Any> {
+    data class Success<SuccessType : Any>(val element: SuccessType) : NetworkResponse<SuccessType>()
+    data class ServerError(val error: HttpException) : NetworkResponse<Nothing>()
+    data class NetworkError(val error: NetworkUnavailableException) : NetworkResponse<Nothing>()
 }
+
