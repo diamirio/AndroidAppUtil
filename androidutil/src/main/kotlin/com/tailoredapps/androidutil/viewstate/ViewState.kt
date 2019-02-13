@@ -22,7 +22,7 @@ import kotlin.reflect.KProperty
 
 
 /**
- * An Activity or Fragment that implements ViewState, can easily store and restore properties from a bundle state.
+ * An Activity or Fragment that implements [ViewState], can easily store and restore properties from a bundle state.
  */
 interface ViewState {
     fun <T : Any> viewStateProperty(defaultValue: T, key: String? = null): ViewStateProperty<T>
@@ -37,7 +37,7 @@ interface ViewStateProperty<T : Any> {
 
 
 /**
- * Default ViewState Implementation. Can be used to implement ViewState by delegation.
+ * Default [ViewState] Implementation. Can be used to implement [ViewState] by delegation.
  * e.g.: class Activity : AppCompatActivity(), ViewState by VS()
  */
 class VS : ViewState {

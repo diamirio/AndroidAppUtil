@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 /**
- * Smooth scrolls up a RecyclerView when it has not been scrolled past the firstVisiblePosition items.
+ * Smooth scrolls up a [RecyclerView] when it has not been scrolled past the firstVisiblePosition items.
  * Otherwise the scroll will happen instantly.
  */
 fun RecyclerView.smoothScrollUp(firstVisiblePosition: Int = 50) {
@@ -58,7 +58,7 @@ fun RecyclerView.addScrolledPastItemListener(
 }
 
 /**
- * Checks whether the RecyclerView has scrolled past a certain item at size - threshold.
+ * Checks whether the [RecyclerView] has scrolled past a certain item at size - threshold.
  * Use this for paginated loading.
  */
 fun RecyclerView.shouldLoadMore(threshold: Int = 8): Boolean {

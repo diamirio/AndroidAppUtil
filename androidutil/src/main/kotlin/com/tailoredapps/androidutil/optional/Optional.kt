@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.networkresponse
+package com.tailoredapps.androidutil.optional
 
-import io.reactivex.Single
 
 /**
- * Extension function that splits a [NetworkResponse] Single into an OnSuccess or OnError emission.
+ * A wrapper for nullable types. Mostly needed for Kotlin compliance with Java APIs such as RxJava.
  */
-fun <SuccessType : Any> Single<NetworkResponse<SuccessType>>.splitNetworkResponse(): Single<SuccessType> {
-    return flatMap {
-        when (it) {
-            is NetworkResponse.Success -> Single.just(it.element)
-            is NetworkResponse.ServerError -> Single.error(it.error)
-            is NetworkResponse.NetworkError -> Single.error(it.error)
-        }
+sealed class Optional<out Type : Any> {
+    open operator fun invoke(): Type? = null
+
+    object None : Optional<Nothing>()
+
+    data class Some<out Type : Any>(val value: Type) : Optional<Type>() {
+        override fun invoke(): Type = value
     }
 }
+
+/**
+ * Wraps a nullable instance of T to an [Optional].
+ */
+val <T : Any> T?.asOptional: Optional<T>
+    get() = if (this == null) Optional.None else Optional.Some(this)

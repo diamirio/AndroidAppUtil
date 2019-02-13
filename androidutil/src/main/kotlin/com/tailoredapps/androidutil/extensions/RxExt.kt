@@ -84,21 +84,6 @@ fun <T> Maybe<T>.subscribeOnIO(): Maybe<T> = subscribeOn(Schedulers.io())
 
 
 /**
- * Converts a value to a Maybe that signals onComplete if te value is null, else it emits the value
- * in onSuccess.
- */
-@CheckReturnValue
-fun <T> T?.toMaybe(): Maybe<T> = Maybe.create { if (this == null) it.onComplete() else it.onSuccess(this) }
-
-/**
- * Maps each element of the observable to a maybe which is either empty when the observable element
- * is null or emits a maybe success with the observable element.
- */
-@CheckReturnValue
-fun <S : Any, T : Any> Observable<S>.flatMapOptionalAsMaybe(mapper: (S) -> T?): Observable<T> =
-    this.flatMapMaybe { mapper.invoke(it).toMaybe() }
-
-/**
  * Converts a Completable to an Observable with a default completion value.
  */
 @CheckReturnValue
@@ -110,5 +95,4 @@ fun <T : Any> Completable.toObservableDefault(completionValue: T): Observable<T>
  * Filters the item of the specified type T by mapping the Single to a Maybe with type R.
  */
 @CheckReturnValue
-inline fun <reified R : Any> Single<*>.ofType(): Maybe<R> =
-    toObservable().ofType(R::class.java).firstElement()
+inline fun <reified R : Any> Single<*>.ofType(): Maybe<R> = filter { it is R }.cast(R::class.java)

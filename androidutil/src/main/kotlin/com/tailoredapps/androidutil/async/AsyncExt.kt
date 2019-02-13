@@ -22,7 +22,7 @@ import io.reactivex.Single
 
 
 /**
- * Extension function that materializes an Observable and maps the resulting Notification to the Async type.
+ * Extension function that materializes an Observable and maps the resulting Notification to the [Async] type.
  */
 fun <T : Any> Observable<T>.mapToAsync(): Observable<Async<T>> {
     return materialize()
@@ -39,7 +39,7 @@ fun <T : Any> Observable<T>.mapToAsync(): Observable<Async<T>> {
 
 
 /**
- * Extension function that maps a NetworkResponse to the Async type.
+ * Extension function that maps a [NetworkResponse] to the [Async] type.
  */
 fun <SuccessType : Any> Single<NetworkResponse<SuccessType>>.mapNetworkResponseToAsync(): Single<Async<SuccessType>> {
     return map {
