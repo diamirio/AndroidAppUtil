@@ -23,66 +23,69 @@ import org.threeten.bp.LocalDate
 /**
  * Extendable set of Rules that can be used to validate a property.
  */
-sealed class Rule<T : Any>(@StringRes val errorMessage: Int) {
-    abstract fun validate(input: T?): Boolean
+interface Rule<T : Any> {
+    @get:StringRes
+    val errorMessage: Int
 
-    class NotNull(@StringRes errorMessage: Int) : Rule<Any>(errorMessage) {
-        override fun validate(input: Any?) = input != null
-    }
-
-    class NotEmpty(@StringRes errorMessage: Int) : Rule<String>(errorMessage) {
-        override fun validate(input: String?) = input != null && input.isNotEmpty()
-    }
-
-    class Equal(private val other: () -> String?, @StringRes errorMessage: Int) :
-        Rule<String>(errorMessage) {
-        override fun validate(input: String?) = input == other.invoke()
-    }
-
-    open class Regex(private val pattern: String, @StringRes errorMessage: Int) :
-        Rule<String>(errorMessage) {
-        override fun validate(input: String?) = input != null && pattern.toRegex().matches(input)
-    }
-
-    class MinLength(private val length: Int, @StringRes errorMessage: Int) :
-        Rule<String>(errorMessage) {
-        override fun validate(input: String?): Boolean = input != null && input.length >= length
-    }
-
-    class MaxLength(private val length: Int, @StringRes errorMessage: Int) :
-        Rule<String>(errorMessage) {
-        override fun validate(input: String?): Boolean = input != null && input.length <= length
-    }
-
-    class AtLeastOneUpperCaseLetter(@StringRes errorMessage: Int) : Rule<String>(errorMessage) {
-        override fun validate(input: String?) = input != null && input.any { it.isUpperCase() }
-    }
-
-    class AtLeastOneLowerCaseLetter(@StringRes errorMessage: Int) : Rule<String>(errorMessage) {
-        override fun validate(input: String?) = input != null && input.any { it.isLowerCase() }
-    }
-
-    class AtLeastOneDigit(@StringRes errorMessage: Int) : Rule<String>(errorMessage) {
-        override fun validate(input: String?) = input != null && input.any { it.isDigit() }
-    }
-
-    class DateBeforeToday(@StringRes errorMessage: Int) : Rule<LocalDate>(errorMessage) {
-        override fun validate(input: LocalDate?): Boolean = input != null && input.isBefore(LocalDate.now())
-    }
-
-    class DateAfterToday(@StringRes errorMessage: Int) : Rule<LocalDate>(errorMessage) {
-        override fun validate(input: LocalDate?): Boolean = input != null && input.isAfter(LocalDate.now())
-    }
-
-    class Email(@StringRes errorMessage: Int) :
-        Regex(
-            "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
-                    "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +
-                    "x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-" +
-                    "z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}0-9](?:[\\p{L}0-9-]*[\\p{L}0-9])?|\\[(?:(?:25[0-5" +
-                    "]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
-                    "9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21" +
-                    "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
-            errorMessage
-        )
+    fun validate(input: T?): Boolean
 }
+
+class NotNullRule(@StringRes override val errorMessage: Int) : Rule<Any> {
+    override fun validate(input: Any?) = input != null
+}
+
+class NotEmptyRule(@StringRes override val errorMessage: Int) : Rule<String> {
+    override fun validate(input: String?) = input != null && input.isNotEmpty()
+}
+
+class EqualRule(private val other: () -> String?, @StringRes override val errorMessage: Int) :
+    Rule<String> {
+    override fun validate(input: String?) = input == other.invoke()
+}
+
+open class RegexRule(private val pattern: String, @StringRes override val errorMessage: Int) :
+    Rule<String> {
+    override fun validate(input: String?) = input != null && pattern.toRegex().matches(input)
+}
+
+class MinLengthRule(private val length: Int, @StringRes override val errorMessage: Int) :
+    Rule<String> {
+    override fun validate(input: String?): Boolean = input != null && input.length >= length
+}
+
+class MaxLengthRule(private val length: Int, @StringRes override val errorMessage: Int) :
+    Rule<String> {
+    override fun validate(input: String?): Boolean = input != null && input.length <= length
+}
+
+class AtLeastOneUpperCaseLetterRule(@StringRes override val errorMessage: Int) : Rule<String> {
+    override fun validate(input: String?) = input != null && input.any { it.isUpperCase() }
+}
+
+class AtLeastOneLowerCaseLetterRule(@StringRes override val errorMessage: Int) : Rule<String> {
+    override fun validate(input: String?) = input != null && input.any { it.isLowerCase() }
+}
+
+class AtLeastOneDigitRule(@StringRes override val errorMessage: Int) : Rule<String> {
+    override fun validate(input: String?) = input != null && input.any { it.isDigit() }
+}
+
+class DateBeforeTodayRule(@StringRes override val errorMessage: Int) : Rule<LocalDate> {
+    override fun validate(input: LocalDate?): Boolean = input != null && input.isBefore(LocalDate.now())
+}
+
+class DateAfterTodayRule(@StringRes override val errorMessage: Int) : Rule<LocalDate> {
+    override fun validate(input: LocalDate?): Boolean = input != null && input.isAfter(LocalDate.now())
+}
+
+class EmailRule(@StringRes errorMessage: Int) :
+    RegexRule(
+        "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
+                "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +
+                "x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-" +
+                "z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}0-9](?:[\\p{L}0-9-]*[\\p{L}0-9])?|\\[(?:(?:25[0-5" +
+                "]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
+                "9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21" +
+                "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+        errorMessage
+    )
