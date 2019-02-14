@@ -26,27 +26,28 @@ import com.google.android.material.snackbar.Snackbar
 /**
  * Convenience function to show a toast in a Fragment.
  */
-fun Fragment.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG) =
-        context?.toast(getString(titleRes), duration)
+fun Fragment.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG): Toast? =
+    context?.toast(getString(titleRes), duration)
 
 /**
  * Convenience function to show a toast in a Fragment.
  */
-fun Fragment.toast(title: String, duration: Int = Toast.LENGTH_LONG) =
-        context?.toast(title, duration)
+fun Fragment.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toast? =
+    context?.toast(title, duration)
 
 /**
  * Convenience function to show a toast from a Context.
  */
-fun Context.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG) =
-        toast(getString(titleRes), duration)
+fun Context.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG): Toast =
+    toast(getString(titleRes), duration)
 
 /**
  * Convenience function to show a toast from a Context.
  */
-fun Context.toast(title: String, duration: Int = Toast.LENGTH_LONG) {
-    val toastDuration = if (duration == Toast.LENGTH_LONG || duration == Toast.LENGTH_SHORT) duration else Toast.LENGTH_SHORT
-    Toast.makeText(this, title, toastDuration).apply { show() }
+fun Context.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toast {
+    val toastDuration =
+        if (duration == Toast.LENGTH_LONG || duration == Toast.LENGTH_SHORT) duration else Toast.LENGTH_SHORT
+    return Toast.makeText(this, title, toastDuration).apply { show() }
 }
 
 
@@ -54,27 +55,26 @@ fun Context.toast(title: String, duration: Int = Toast.LENGTH_LONG) {
  * Convenience function to show a snackbar for a View.
  */
 fun View.snack(
-        @StringRes titleRes: Int,
-        duration: Int = Snackbar.LENGTH_LONG,
-        @StringRes actionTextRes: Int? = null,
-        action: (() -> Unit)? = null
-) = snack(context.getString(titleRes), duration, actionTextRes?.let(context::getString), action)
+    @StringRes titleRes: Int,
+    duration: Int = Snackbar.LENGTH_LONG,
+    @StringRes actionTextRes: Int? = null,
+    action: (() -> Unit)? = null
+): Snackbar = snack(context.getString(titleRes), duration, actionTextRes?.let(context::getString), action)
 
 /**
  * Convenience function to show a snackbar for a View.
  */
 fun View.snack(
-        title: CharSequence,
-        duration: Int = Snackbar.LENGTH_LONG,
-        actionText: CharSequence? = null,
-        action: (() -> Unit)? = null
-) {
-    val snackDuration = if (duration == Snackbar.LENGTH_SHORT || duration == Snackbar.LENGTH_LONG || duration == Snackbar.LENGTH_INDEFINITE) {
-        duration
-    } else {
-        Snackbar.LENGTH_LONG
+    title: CharSequence,
+    duration: Int = Snackbar.LENGTH_LONG,
+    actionText: CharSequence? = null,
+    action: (() -> Unit)? = null
+): Snackbar {
+    val snackDuration = when (duration) {
+        Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG, Snackbar.LENGTH_INDEFINITE -> duration
+        else -> Snackbar.LENGTH_LONG
     }
-    if (actionText != null && action != null) {
+    return if (actionText != null && action != null) {
         Snackbar.make(this, title, snackDuration).setAction(actionText) { action.invoke() }.apply { show() }
     } else {
         Snackbar.make(this, title, snackDuration).apply { show() }
