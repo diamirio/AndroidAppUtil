@@ -23,7 +23,7 @@ import android.text.style.BulletSpan
 
 
 /**
- * Creates a Charsequence of bulleted points from an Iterable.
+ * Creates a [CharSequence] of bulleted points from an [Iterable].
  */
 fun <T : Any> Resources.createBulletCharSequence(
     lines: Iterable<T>,
