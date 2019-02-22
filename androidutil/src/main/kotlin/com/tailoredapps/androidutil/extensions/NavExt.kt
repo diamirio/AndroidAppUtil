@@ -27,7 +27,7 @@ import androidx.fragment.app.FragmentTransaction
 /**
  * Fills an intent with extra parameters.
  */
-fun Intent.extras(vararg params: Pair<String, Any>) = apply { putExtras(bundleOf(*params)) }
+fun <T : Intent> T.extras(vararg params: Pair<String, Any>): T = apply { putExtras(bundleOf(*params)) }
 
 /**
  * Lazily retrieves an extra from an the activity intent.
@@ -40,7 +40,7 @@ inline fun <reified T : Any> FragmentActivity.extra(key: String, defaultValue: T
 /**
  * Fills the Fragment arguments with with parameters.
  */
-fun Fragment.args(vararg params: Pair<String, Any>) = apply { arguments = bundleOf(*params) }
+fun <T : Fragment> T.args(vararg params: Pair<String, Any>): T = apply { arguments = bundleOf(*params) }
 
 /**
  * Lazily retrieves an argument from the fragment arguments.
