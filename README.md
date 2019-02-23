@@ -1,6 +1,6 @@
 # AndroidUtil
 
-![AndroidUtil Version](https://img.shields.io/badge/AndroidReactor-0.0.9-blue.svg)
+![AndroidUtil Version](https://img.shields.io/badge/AndroidUtil-0.0.9-blue.svg)
 
 AndroidUtil is a set of utility classes for Android application development.
 
