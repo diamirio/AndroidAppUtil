@@ -6,7 +6,7 @@ ext {
     compileSdkVersion = targetSdkVersion
 
     libVersionCode = 1
-    libraryVersion = '0.0.11'
+    libraryVersion = '0.0.12'
 
     //publishing
     bintrayRepo = 'AndroidUtil'

@@ -19,6 +19,7 @@ package com.tailoredapps.androidutil
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 
 
 /**
@@ -38,4 +39,17 @@ object IntentUtil {
         Intent.ACTION_VIEW,
         Uri.parse("https://play.google.com/store/apps/details?id=${context.applicationContext.packageName}")
     )
+
+    fun appSettings(context: Context): Intent = Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", context.packageName, null)
+    )
+
+    fun notificationSettings(context: Context): Intent = Intent(
+        "android.settings.APP_NOTIFICATION_SETTINGS"
+    ).apply {
+        putExtra("app_package", context.packageName)
+        putExtra("app_uid", context.applicationInfo.uid)
+        putExtra("android.provider.extra.APP_PACKAGE", context.packageName)
+    }
 }
