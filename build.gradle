@@ -1,12 +1,11 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 ext {
+    libraryVersion = '0.0.12'
+
     targetSdkVersion = 28
     minSdkVersion = 21
     compileSdkVersion = targetSdkVersion
-
-    libVersionCode = 1
-    libraryVersion = '0.0.12'
 
     //publishing
     bintrayRepo = 'AndroidUtil'
