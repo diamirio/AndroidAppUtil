@@ -26,25 +26,25 @@ import com.google.android.material.snackbar.Snackbar
 /**
  * Convenience function to show a toast in a Fragment.
  */
-fun Fragment.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG): Toast? =
+fun <T : Fragment> T.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG): Toast? =
     context?.toast(getString(titleRes), duration)
 
 /**
  * Convenience function to show a toast in a Fragment.
  */
-fun Fragment.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toast? =
+fun <T : Fragment> T.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toast? =
     context?.toast(title, duration)
 
 /**
  * Convenience function to show a toast from a Context.
  */
-fun Context.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG): Toast =
+fun <T : Context> T.toast(@StringRes titleRes: Int, duration: Int = Toast.LENGTH_LONG): Toast =
     toast(getString(titleRes), duration)
 
 /**
  * Convenience function to show a toast from a Context.
  */
-fun Context.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toast {
+fun <T : Context> T.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toast {
     val toastDuration =
         if (duration == Toast.LENGTH_LONG || duration == Toast.LENGTH_SHORT) duration else Toast.LENGTH_SHORT
     return Toast.makeText(this, title, toastDuration).apply { show() }
@@ -54,7 +54,7 @@ fun Context.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toast {
 /**
  * Convenience function to show a snackbar for a View.
  */
-fun View.snack(
+fun <T : View> T.snack(
     @StringRes titleRes: Int,
     duration: Int = Snackbar.LENGTH_LONG,
     @StringRes actionTextRes: Int? = null,
@@ -64,7 +64,7 @@ fun View.snack(
 /**
  * Convenience function to show a snackbar for a View.
  */
-fun View.snack(
+fun <T : View> T.snack(
     title: CharSequence,
     duration: Int = Snackbar.LENGTH_LONG,
     actionText: CharSequence? = null,

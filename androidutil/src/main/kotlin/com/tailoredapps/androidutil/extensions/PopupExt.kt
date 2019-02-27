@@ -34,7 +34,7 @@ sealed class RxPopupAction {
 /**
  * Convenience function to show a popup menu for a View.
  */
-fun View.rxPopup(@MenuRes menuId: Int, itemsAdapter: ((MenuItem) -> Unit)? = null): Single<RxPopupAction> = Single.create { emitter ->
+fun <T : View> T.rxPopup(@MenuRes menuId: Int, itemsAdapter: ((MenuItem) -> Unit)? = null): Single<RxPopupAction> = Single.create { emitter ->
     val menu = PopupMenu(context, this).apply {
         menuInflater.inflate(menuId, menu)
         itemsAdapter?.let { adapter -> menu.forEach { adapter.invoke(it) } }

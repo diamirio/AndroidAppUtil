@@ -16,10 +16,10 @@
 
 package com.tailoredapps.androidutil.extensions
 
+import android.app.Activity
 import android.content.Intent
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
@@ -27,12 +27,12 @@ import androidx.fragment.app.FragmentTransaction
 /**
  * Fills an intent with extra parameters.
  */
-fun <T : Intent> T.extras(vararg params: Pair<String, Any>): T = apply { putExtras(bundleOf(*params)) }
+fun <I : Intent> I.extras(vararg params: Pair<String, Any>): I = apply { putExtras(bundleOf(*params)) }
 
 /**
  * Lazily retrieves an extra from an the activity intent.
  */
-inline fun <reified T : Any> FragmentActivity.extra(key: String, defaultValue: T? = null): Lazy<T> = lazy {
+inline fun <A : Activity, reified T : Any> A.extra(key: String, defaultValue: T? = null): Lazy<T> = lazy {
     if (defaultValue == null) intent.extras?.get(key) as T
     else intent.extras?.get(key) as? T ?: defaultValue
 }
@@ -40,12 +40,12 @@ inline fun <reified T : Any> FragmentActivity.extra(key: String, defaultValue: T
 /**
  * Fills the Fragment arguments with with parameters.
  */
-fun <T : Fragment> T.args(vararg params: Pair<String, Any>): T = apply { arguments = bundleOf(*params) }
+fun <F : Fragment> F.args(vararg params: Pair<String, Any>): F = apply { arguments = bundleOf(*params) }
 
 /**
  * Lazily retrieves an argument from the fragment arguments.
  */
-inline fun <reified T : Any> Fragment.argument(key: String, defaultValue: T? = null): Lazy<T> = lazy {
+inline fun <F : Fragment, reified T : Any> F.argument(key: String, defaultValue: T? = null): Lazy<T> = lazy {
     if (defaultValue == null) arguments?.get(key) as T
     else arguments?.get(key) as? T ?: defaultValue
 }
@@ -54,7 +54,7 @@ inline fun <reified T : Any> Fragment.argument(key: String, defaultValue: T? = n
 /**
  * Executes a FragmentManager transaction.
  */
-inline fun FragmentManager.transaction(func: FragmentTransaction.() -> Unit) {
+inline fun <F : FragmentManager> F.transaction(func: FragmentTransaction.() -> Unit) {
     val fragmentTransaction = beginTransaction()
     fragmentTransaction.func()
     fragmentTransaction.commit()

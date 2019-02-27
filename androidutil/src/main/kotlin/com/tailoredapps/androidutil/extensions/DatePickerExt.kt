@@ -16,9 +16,9 @@
 
 package com.tailoredapps.androidutil.extensions
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -33,7 +33,7 @@ sealed class RxDatePickerAction {
 /**
  * Picks a org.threeten.bp.LocalDate using the default DatePicker.
  */
-fun FragmentActivity.rxDatePicker(preset: LocalDate? = null): Single<RxDatePickerAction> {
+fun <T : Activity> T.rxDatePicker(preset: LocalDate? = null): Single<RxDatePickerAction> {
     return Single
         .create { emitter: SingleEmitter<RxDatePickerAction> ->
             val date = preset ?: LocalDate.now()
@@ -59,7 +59,7 @@ fun FragmentActivity.rxDatePicker(preset: LocalDate? = null): Single<RxDatePicke
 /**
  * Picks a org.threeten.bp.LocalDate using the default DatePicker.
  */
-fun Fragment.rxDatePicker(): Single<RxDatePickerAction> {
+fun <T : Fragment> T.rxDatePicker(): Single<RxDatePickerAction> {
     val activity = this.activity
         ?: throw RuntimeException("No Activity attached to Fragment. Cannot show Dialog.")
     return activity.rxDatePicker()

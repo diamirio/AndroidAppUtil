@@ -24,6 +24,6 @@ import androidx.core.content.ContextCompat
 /**
  * Checks whether a runtime permission is given.
  */
-fun Context?.permissionGranted(permission: String): Boolean =
+fun <T : Context> T?.permissionGranted(permission: String): Boolean =
     if (this == null) false
     else ContextCompat.checkSelfPermission(this.applicationContext, permission) == PackageManager.PERMISSION_GRANTED

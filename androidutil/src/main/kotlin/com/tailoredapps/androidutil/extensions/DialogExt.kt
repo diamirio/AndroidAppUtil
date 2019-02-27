@@ -16,6 +16,7 @@
 
 package com.tailoredapps.androidutil.extensions
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.annotation.ArrayRes
@@ -23,7 +24,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,7 +40,7 @@ sealed class RxDialogAction {
 /**
  * Shows a customizable alert dialog.
  */
-fun FragmentActivity.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> =
+fun <T : Activity> T.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> =
     Single.create { emitter: SingleEmitter<RxDialogAction> ->
         val alert = RxAlert(this, emitter).apply { init() }.build()
         emitter.setCancellable(alert::dismiss)
@@ -50,7 +50,7 @@ fun FragmentActivity.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> 
 /**
  * Shows a customizable alert dialog.
  */
-fun Fragment.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> {
+fun <T : Fragment> T.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> {
     val activity = this.activity
         ?: throw RuntimeException("No Activity attached to Fragment. Cannot show Dialog.")
     return activity.rxDialog(init)

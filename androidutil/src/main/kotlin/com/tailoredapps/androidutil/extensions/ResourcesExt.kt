@@ -25,7 +25,7 @@ import android.text.style.BulletSpan
 /**
  * Creates a [CharSequence] of bulleted points from an [Iterable].
  */
-fun <T : Any> Resources.createBulletCharSequence(
+fun <R : Resources, T : Any> R.createBulletCharSequence(
     lines: Iterable<T>,
     adapter: ((T) -> CharSequence)? = null
 ): CharSequence = SpannableStringBuilder().also { ssb ->
