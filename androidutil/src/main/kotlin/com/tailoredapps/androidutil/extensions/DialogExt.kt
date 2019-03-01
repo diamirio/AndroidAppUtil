@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.ArrayRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import io.reactivex.Single
@@ -40,9 +41,9 @@ sealed class RxDialogAction {
 /**
  * Shows a customizable alert dialog.
  */
-fun <T : Activity> T.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> =
+fun <T : Activity> T.rxDialog(@StyleRes themeResId: Int? = null, init: RxAlert.() -> Unit): Single<RxDialogAction> =
     Single.create { emitter: SingleEmitter<RxDialogAction> ->
-        val alert = RxAlert(this, emitter).apply { init() }.build()
+        val alert = RxAlert(this, themeResId, emitter).apply { init() }.build()
         emitter.setCancellable(alert::dismiss)
         alert.show()
     }.subscribeOn(AndroidSchedulers.mainThread())
@@ -50,14 +51,21 @@ fun <T : Activity> T.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> 
 /**
  * Shows a customizable alert dialog.
  */
-fun <T : Fragment> T.rxDialog(init: RxAlert.() -> Unit): Single<RxDialogAction> {
+fun <T : Fragment> T.rxDialog(@StyleRes themeResId: Int? = null, init: RxAlert.() -> Unit): Single<RxDialogAction> {
     val activity = this.activity
         ?: throw RuntimeException("No Activity attached to Fragment. Cannot show Dialog.")
-    return activity.rxDialog(init)
+    return activity.rxDialog(themeResId, init)
 }
 
-class RxAlert(private val context: Context, private val emitter: SingleEmitter<RxDialogAction>) {
-    private val builder = AlertDialog.Builder(context)
+class RxAlert(
+    private val context: Context,
+    @StyleRes themeResId: Int?,
+    private val emitter: SingleEmitter<RxDialogAction>
+) {
+    private val builder: AlertDialog.Builder = when {
+        themeResId != null -> AlertDialog.Builder(context, themeResId)
+        else -> AlertDialog.Builder(context)
+    }
 
     var title: CharSequence
         get() = throw RuntimeException("No getter.")

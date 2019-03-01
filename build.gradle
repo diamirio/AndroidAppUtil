@@ -1,7 +1,7 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 ext {
-    libraryVersion = '0.0.12'
+    libraryVersion = '0.0.13'
 
     targetSdkVersion = 28
     minSdkVersion = 21
