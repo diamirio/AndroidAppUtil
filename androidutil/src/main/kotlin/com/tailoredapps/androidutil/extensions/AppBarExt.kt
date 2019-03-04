@@ -37,7 +37,7 @@ fun <T : View> AppBarLayout.liftWith(view: T) {
     ViewTreeObserver.OnScrollChangedListener { setLifted(view.canScrollVertically(-1)) }
         .also { listener ->
             view.viewTreeObserver.addOnScrollChangedListener(listener)
-            tag = listener
+            view.tag = listener
         }
 }
 
