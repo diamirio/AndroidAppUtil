@@ -17,6 +17,7 @@
 package com.tailoredapps.androidutil.extensions
 
 import android.view.View
+import android.view.ViewTreeObserver
 import com.google.android.material.appbar.AppBarLayout
 
 
@@ -24,7 +25,25 @@ import com.google.android.material.appbar.AppBarLayout
  * Lifts the AppBarLayout according to the scroll of a View.
  *
  * canScrollVertically(-1) checks whether a view can no longer scroll upwards.
+ *
+ * A reference to the listener is kept as a view tag and must be removed again using
+ * [removeLiftingView] to avoid memory leaks.
+ *
+ * Removes previously set lifting views.
+ *
  */
 fun <T : View> AppBarLayout.liftWith(view: T) {
-    view.viewTreeObserver.addOnScrollChangedListener { setLifted(view.canScrollVertically(-1)) }
+    removeLiftingView(view)
+    ViewTreeObserver.OnScrollChangedListener { setLifted(view.canScrollVertically(-1)) }
+        .also { listener ->
+            view.viewTreeObserver.addOnScrollChangedListener(listener)
+            tag = listener
+        }
+}
+
+/**
+ * Remove the previously set scroll listener from the view to avoid memory leaks
+ */
+fun <T : View> AppBarLayout.removeLiftingView(view: T) {
+    (view.tag as? ViewTreeObserver.OnScrollChangedListener)?.let { view.viewTreeObserver.removeOnScrollChangedListener(it) }
 }
