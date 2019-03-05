@@ -27,10 +27,14 @@ import java.lang.RuntimeException
 /**
  * Queries the [PermissionState] of a [Permission].
  */
-fun Context.permission(with: Permission): PermissionState {
+fun <C : Context> C.permission(with: Permission): PermissionState {
     return when {
         ContextCompat.checkSelfPermission(this, with.manifestPermission) == PackageManager.PERMISSION_DENIED -> {
-            if (this is Activity && !ActivityCompat.shouldShowRequestPermissionRationale(this, with.manifestPermission)) {
+            if (this is Activity && !ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    with.manifestPermission
+                )
+            ) {
                 PermissionState.NeverAskAgain(with)
             } else {
                 PermissionState.Denied(with)
@@ -43,7 +47,7 @@ fun Context.permission(with: Permission): PermissionState {
 /**
  * Queries the [PermissionState] of a [Permission].
  */
-fun Fragment.permission(with: Permission): PermissionState {
+fun <F : Fragment> F.permission(with: Permission): PermissionState {
     val context = context ?: throw RuntimeException("Context must not be null!")
     return context.permission(with)
 }
@@ -61,14 +65,14 @@ fun Permission.query(fragment: Fragment): PermissionState = fragment.permission(
 /**
  * Queries the [PermissionState] of multiple [Permission].
  */
-fun Context.permissions(vararg with: Permission): List<PermissionState> {
+fun <C : Context> C.permissions(vararg with: Permission): List<PermissionState> {
     return with.map { permission(it) }
 }
 
 /**
  * Queries the [PermissionState] of multiple [Permission].
  */
-fun Fragment.permissions(vararg with: Permission): List<PermissionState> {
+fun <F : Fragment> F.permissions(vararg with: Permission): List<PermissionState> {
     val context = context ?: throw RuntimeException("Context must not be null!")
     return context.permissions(*with)
 }
