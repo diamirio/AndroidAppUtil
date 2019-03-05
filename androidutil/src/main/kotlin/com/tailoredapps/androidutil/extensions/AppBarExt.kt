@@ -27,11 +27,10 @@ import com.google.android.material.appbar.AppBarLayout
  * canScrollVertically(-1) checks whether a view can no longer scroll upwards.
  *
  * A reference to the listener is kept as a view tag and must be removed again using
- * [removeLiftingView] to avoid memory leaks.
+ * [removeLiftWith] to avoid memory leaks.
  *
  */
 fun <T : View> AppBarLayout.liftWith(view: T) {
-    setLiftable(true)
     ViewTreeObserver.OnScrollChangedListener { setLifted(view.canScrollVertically(-1)) }
         .also { listener ->
             view.viewTreeObserver.addOnScrollChangedListener(listener)
@@ -42,7 +41,6 @@ fun <T : View> AppBarLayout.liftWith(view: T) {
 /**
  * Remove the previously set scroll listener from the view to avoid memory leaks
  */
-fun <T : View> AppBarLayout.removeLiftingView(view: T) {
-    setLiftable(false)
+fun <T : View> AppBarLayout.removeLiftWith(view: T) {
     (view.tag as? ViewTreeObserver.OnScrollChangedListener)?.let { view.viewTreeObserver.removeOnScrollChangedListener(it) }
 }
