@@ -4,6 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'org.jetbrains.dokka-android'
 
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -11,7 +12,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
         versionCode 1
-        versionName rootProject.ext.libraryVersion
+        versionName "17"
 
         consumerProguardFiles 'proguard-rules.pro'
     }
@@ -50,16 +51,15 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 }
 
-
 //publishing
 
 group = publishedGroupId
-version = libraryVersion
+version = android.defaultConfig.versionName
 
 Properties properties = new Properties()
 try {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-} catch(IOException e) {
+} catch (IOException e) {
     println("local.properties not found: " + e.localizedMessage)
 }
 

@@ -17,10 +17,33 @@ default_platform(:android)
 
 
 platform :android do
-  desc "Run all tests and deploy all the tests"
+  desc "Run all tests and deploy to bintray"
   lane :deploy do
-    gradle(task: "test")
-    gradle(task: "clean build install")
-    gradle(task: "bintrayUpload")
+    gradle(task: "test clean")
+    increment_version_and_commit lane:self.runner.current_lane
+    gradle(task: "build install bintrayUpload")
+    push_to_git_remote(remote_branch: git_branch)
   end
+end
+
+
+def increment_version_and_commit(options)
+  version_name = android_get_version_name(gradle_file: "androidutil/build.gradle")
+  new_version_name = version_name.to_i + 1
+  android_set_version_name(
+    version_name: new_version_name.to_s,
+    gradle_file: "androidutil/build.gradle"
+  )
+
+  git_commit(path: ".", message: "Version: " + get_tag_name(options))
+  tagCurrentVersion
+end
+
+desc "Tags the current commit with the tag name"
+private_lane :tagCurrentVersion do |options|
+  add_git_tag(tag: get_tag_name(options))
+end
+
+def get_tag_name(options)
+  return "v" + android_get_version_name(gradle_file: "androidutil/build.gradle")
 end

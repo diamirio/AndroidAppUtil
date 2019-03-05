@@ -1,6 +1,6 @@
 # AndroidUtil
 
-![AndroidUtil Version](https://img.shields.io/badge/AndroidUtil-0.0.14-blue.svg)
+![AndroidUtil](https://img.shields.io/badge/TailoredApps-AndroidUtil-blue.svg)
 
 AndroidUtil is a set of utility classes for Android application development.
 
@@ -14,9 +14,11 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.tailoredapps:androidutil:0.0.14'
+    implementation 'com.tailoredapps:androidutil:{currentVersion}'
 }
 ```
+
+For current version refer to "releases tab" above.
 
 ## Contribute
 
