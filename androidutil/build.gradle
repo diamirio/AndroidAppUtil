@@ -12,7 +12,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
         versionCode 1
-        versionName "18"
+        versionName "19"
 
         consumerProguardFiles 'proguard-rules.pro'
     }
