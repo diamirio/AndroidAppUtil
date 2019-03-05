@@ -18,7 +18,7 @@ dependencies {
 }
 ```
 
-For current version refer to "releases tab" above.
+For the `currentVersion` refer to **releases tab** above.
 
 ## Contribute
 
