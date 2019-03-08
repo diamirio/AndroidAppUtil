@@ -24,6 +24,10 @@ For the `currentVersion` refer to **releases tab** above.
 
 Pull requests are welcome. Do not forget to add proguard rules to the `proguard-rules.pro` when adding a new dependency.
 
+## Build and Deploy
+
+To build and deploy the library to bintray, add your changes, commit and then call `fastlane deploy`. This will automatically update the version, commit and push to git and then upload to bintray.
+
 ## License
 
 ```
