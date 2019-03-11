@@ -51,11 +51,8 @@ fun <T : Activity> T.rxDialog(@StyleRes themeResId: Int? = null, init: RxAlert.(
 /**
  * Shows a customizable alert dialog.
  */
-fun <T : Fragment> T.rxDialog(@StyleRes themeResId: Int? = null, init: RxAlert.() -> Unit): Single<RxDialogAction> {
-    val activity = this.activity
-        ?: throw RuntimeException("No Activity attached to Fragment. Cannot show Dialog.")
-    return activity.rxDialog(themeResId, init)
-}
+fun <T : Fragment> T.rxDialog(@StyleRes themeResId: Int? = null, init: RxAlert.() -> Unit): Single<RxDialogAction> =
+    requireActivity().rxDialog(themeResId, init)
 
 class RxAlert(
     private val context: Context,

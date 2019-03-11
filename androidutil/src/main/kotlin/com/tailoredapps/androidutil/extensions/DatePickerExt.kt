@@ -59,8 +59,4 @@ fun <T : Activity> T.rxDatePicker(preset: LocalDate? = null): Single<RxDatePicke
 /**
  * Picks a org.threeten.bp.LocalDate using the default DatePicker.
  */
-fun <T : Fragment> T.rxDatePicker(): Single<RxDatePickerAction> {
-    val activity = this.activity
-        ?: throw RuntimeException("No Activity attached to Fragment. Cannot show Dialog.")
-    return activity.rxDatePicker()
-}
+fun <T : Fragment> T.rxDatePicker(): Single<RxDatePickerAction> = requireActivity().rxDatePicker()

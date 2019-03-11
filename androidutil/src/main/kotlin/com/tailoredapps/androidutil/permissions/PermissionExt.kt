@@ -47,10 +47,7 @@ fun <C : Context> C.permission(with: Permission): PermissionState {
 /**
  * Queries the [PermissionState] of a [Permission].
  */
-fun <F : Fragment> F.permission(with: Permission): PermissionState {
-    val context = context ?: throw RuntimeException("Context must not be null!")
-    return context.permission(with)
-}
+fun <F : Fragment> F.permission(with: Permission): PermissionState = requireContext().permission(with)
 
 /**
  * Queries the [PermissionState] of this [Permission].
@@ -65,9 +62,7 @@ fun Permission.query(fragment: Fragment): PermissionState = fragment.permission(
 /**
  * Queries the [PermissionState] of multiple [Permission].
  */
-fun <C : Context> C.permissions(vararg with: Permission): List<PermissionState> {
-    return with.map { permission(it) }
-}
+fun <C : Context> C.permissions(vararg with: Permission): List<PermissionState> = with.map { permission(it) }
 
 /**
  * Queries the [PermissionState] of multiple [Permission].
