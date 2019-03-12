@@ -33,39 +33,40 @@ fun <T : View> T.bottomSheetEvents(): Observable<BottomSheetBehaviorEvent> {
 }
 
 
-sealed class BottomSheetBehaviorEvent(val view: View, val behavior: BottomSheetBehavior<*>) {
-    class Slide(view: View, bottomSheet: BottomSheetBehavior<*>, val slideOffset: Float) : BottomSheetBehaviorEvent(view, bottomSheet)
-    class State(view: View, bottomSheet: BottomSheetBehavior<*>, val newState: Int) : BottomSheetBehaviorEvent(view, bottomSheet)
+sealed class BottomSheetBehaviorEvent(val bottomSheetView: View) {
+    class Slide(bottomSheetView: View, val slideOffset: Float) : BottomSheetBehaviorEvent(bottomSheetView)
+    class State(bottomSheetView: View, val newState: Int) : BottomSheetBehaviorEvent(bottomSheetView)
 }
 
 
-internal class BottomSheetBehaviorSlideEventObservable(private val view: View) : Observable<BottomSheetBehaviorEvent>() {
+internal class BottomSheetBehaviorSlideEventObservable(private val view: View) :
+    Observable<BottomSheetBehaviorEvent>() {
     override fun subscribeActual(observer: Observer<in BottomSheetBehaviorEvent>) {
         if (view.layoutParams !is CoordinatorLayout.LayoutParams) {
             throw IllegalArgumentException("The view is not in a Coordinator Layout.")
         }
         val params = view.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior as BottomSheetBehavior<*>?
-                ?: throw IllegalStateException("There's no behavior set on this view.")
+            ?: throw IllegalStateException("There's no behavior set on this view.")
         val listener = Listener(behavior, observer)
         observer.onSubscribe(listener)
         behavior.setBottomSheetCallback(listener.bottomSheetCallback)
     }
 
     private inner class Listener(
-            private val bottomSheetBehavior: BottomSheetBehavior<*>,
-            observer: Observer<in BottomSheetBehaviorEvent>
+        private val bottomSheetBehavior: BottomSheetBehavior<*>,
+        observer: Observer<in BottomSheetBehaviorEvent>
     ) : MainThreadDisposable() {
         internal val bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback
 
         init {
             this.bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    observer.onNext(BottomSheetBehaviorEvent.State(view, bottomSheetBehavior, newState))
+                    observer.onNext(BottomSheetBehaviorEvent.State(bottomSheet, newState))
                 }
 
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    observer.onNext(BottomSheetBehaviorEvent.Slide(view, bottomSheetBehavior, slideOffset))
+                    observer.onNext(BottomSheetBehaviorEvent.Slide(bottomSheet, slideOffset))
                 }
             }
         }
