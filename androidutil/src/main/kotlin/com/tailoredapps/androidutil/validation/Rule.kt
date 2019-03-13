@@ -17,7 +17,6 @@
 package com.tailoredapps.androidutil.validation
 
 import androidx.annotation.StringRes
-import org.threeten.bp.LocalDate
 
 
 /**
@@ -64,14 +63,6 @@ class AtLeastOneLowerCaseLetterRule(@StringRes override val errorMessage: Int) :
 
 class AtLeastOneDigitRule(@StringRes override val errorMessage: Int) : Rule<String> {
     override fun validate(input: String?) = input != null && input.any { it.isDigit() }
-}
-
-class DateBeforeTodayRule(@StringRes override val errorMessage: Int) : Rule<LocalDate> {
-    override fun validate(input: LocalDate?): Boolean = input != null && input.isBefore(LocalDate.now())
-}
-
-class DateAfterTodayRule(@StringRes override val errorMessage: Int) : Rule<LocalDate> {
-    override fun validate(input: LocalDate?): Boolean = input != null && input.isAfter(LocalDate.now())
 }
 
 class EmailRule(@StringRes errorMessage: Int) : RegexRule(
