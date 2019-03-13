@@ -22,30 +22,39 @@ import androidx.fragment.app.Fragment
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.threeten.bp.LocalDate
+import java.util.*
+
+
+//Resolves to: year, month (0-11), dayOfMonth (1-31)
+data class RxDatePickerDay(val year: Int, val month: Int, val dayOfMonth: Int)
 
 
 sealed class RxDatePickerAction {
     object Cancelled : RxDatePickerAction()
-    data class Selected(val date: LocalDate) : RxDatePickerAction()
+    data class Selected(val day: RxDatePickerDay) : RxDatePickerAction()
 }
 
+
 /**
- * Picks a org.threeten.bp.LocalDate using the default DatePicker.
+ * Picks a Date using the default DatePicker.
  */
-fun <T : Activity> T.rxDatePicker(preset: LocalDate? = null): Single<RxDatePickerAction> {
+fun <T : Activity> T.rxDatePicker(preset: RxDatePickerDay? = null): Single<RxDatePickerAction> {
     return Single
         .create { emitter: SingleEmitter<RxDatePickerAction> ->
-            val date = preset ?: LocalDate.now()
+            val date = preset ?: Calendar.getInstance().let {
+                RxDatePickerDay(
+                    it.get(Calendar.YEAR),
+                    it.get(Calendar.MONTH),
+                    it.get(Calendar.DAY_OF_MONTH)
+                )
+            }
 
             val dialog = DatePickerDialog(
                 this,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    emitter.onSuccess(RxDatePickerAction.Selected(LocalDate.of(year, month + 1, dayOfMonth)))
+                    emitter.onSuccess(RxDatePickerAction.Selected(RxDatePickerDay(year, month, dayOfMonth)))
                 },
-                date.year,
-                date.month.value - 1,
-                date.dayOfMonth
+                date.year, date.month, date.dayOfMonth
             ).apply {
                 setOnCancelListener { emitter.onSuccess(RxDatePickerAction.Cancelled) }
                 show()
@@ -57,6 +66,7 @@ fun <T : Activity> T.rxDatePicker(preset: LocalDate? = null): Single<RxDatePicke
 }
 
 /**
- * Picks a org.threeten.bp.LocalDate using the default DatePicker.
+ * Picks a Date using the default DatePicker.
  */
-fun <T : Fragment> T.rxDatePicker(): Single<RxDatePickerAction> = requireActivity().rxDatePicker()
+fun <T : Fragment> T.rxDatePicker(preset: RxDatePickerDay? = null): Single<RxDatePickerAction> =
+    requireActivity().rxDatePicker(preset)
