@@ -30,8 +30,8 @@ fun <R : Resources, T : Any> R.createBulletCharSequence(
     adapter: ((T) -> CharSequence)? = null
 ): CharSequence = SpannableStringBuilder().also { ssb ->
     val gapWidth = Math.round(8f * displayMetrics.density)
-    lines.forEach { line ->
-        val text = "${(adapter?.invoke(line) ?: line.toString())}\n"
+    lines.forEachIndexed { index, line ->
+        val text = "${(adapter?.invoke(line) ?: line.toString())}${if (index == lines.count() - 1) "" else "\n"}"
         ssb.append(text, BulletSpan(gapWidth), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 }
