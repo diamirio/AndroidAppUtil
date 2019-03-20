@@ -96,3 +96,10 @@ fun <T : Any> Completable.toObservableDefault(completionValue: T): Observable<T>
  */
 @CheckReturnValue
 inline fun <reified R : Any> Single<*>.ofType(): Maybe<R> = filter { it is R }.cast(R::class.java)
+
+
+/**
+ * Creates an Observable of [T]
+ */
+val <T : Any> T.observable: Observable<T>
+    get() = Observable.just(this)
