@@ -16,11 +16,11 @@
 
 package com.tailoredapps.androidutil.optional
 
-import com.tailoredapps.androidutil.extensions.ofType
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.rxkotlin.ofType
 
 
@@ -72,3 +72,10 @@ fun <T : Any> Maybe<out Optional<T>>.filterNone(): Maybe<Unit> =
  */
 fun <T : Any> Single<out Optional<T>>.filterNone(): Maybe<Unit> =
         ofType<Optional.None>().map { Unit }
+
+
+/**
+ * Filters the item of the specified type T by mapping the Single to a Maybe with type R.
+ */
+@CheckReturnValue
+inline fun <reified R : Any> Single<*>.ofType(): Maybe<R> = filter { it is R }.cast(R::class.java)

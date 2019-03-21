@@ -92,13 +92,6 @@ fun <T : Any> Completable.toObservableDefault(completionValue: T): Observable<T>
 
 
 /**
- * Filters the item of the specified type T by mapping the Single to a Maybe with type R.
- */
-@CheckReturnValue
-inline fun <reified R : Any> Single<*>.ofType(): Maybe<R> = filter { it is R }.cast(R::class.java)
-
-
-/**
  * Creates an Observable of [T]
  */
 val <T : Any> T.observable: Observable<T>

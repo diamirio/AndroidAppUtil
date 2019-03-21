@@ -16,9 +16,7 @@
 
 package com.tailoredapps.androidutil.async
 
-import com.tailoredapps.androidutil.networkresponse.NetworkResponse
 import io.reactivex.Observable
-import io.reactivex.Single
 
 
 /**
@@ -35,18 +33,4 @@ fun <T : Any> Observable<T>.mapToAsync(): Observable<Async<T>> {
                 else -> Observable.empty()
             }
         }
-}
-
-
-/**
- * Extension function that maps a [NetworkResponse] to the [Async] type.
- */
-fun <SuccessType : Any> Single<NetworkResponse<SuccessType>>.mapNetworkResponseToAsync(): Single<Async<SuccessType>> {
-    return map {
-        when (it) {
-            is NetworkResponse.Success -> Async.Success(it.element)
-            is NetworkResponse.ServerError -> Async.Error(it.error)
-            is NetworkResponse.NetworkError -> Async.Error(it.error)
-        }
-    }
 }

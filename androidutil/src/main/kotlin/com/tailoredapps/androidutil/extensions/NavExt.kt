@@ -37,6 +37,7 @@ inline fun <A : Activity, reified T : Any> A.extra(key: String, defaultValue: T?
     else intent.extras?.get(key) as? T ?: defaultValue
 }
 
+
 /**
  * Fills the Fragment arguments with with parameters.
  */

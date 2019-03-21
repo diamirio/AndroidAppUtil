@@ -29,4 +29,15 @@ sealed class Async<out T>(val complete: Boolean, val shouldLoad: Boolean) {
     data class Success<out T>(val element: T) : Async<T>(true, false) {
         override operator fun invoke(): T = element
     }
+
+    val initialized: Boolean
+        get() = this !is Uninitialized
+
+    val loading: Boolean
+        get() = this is Loading
+
+    companion object {
+        fun <T : Any> success(element: T): Async.Success<T> = Async.Success(element)
+        fun <T : Throwable> error(error: T): Async.Error = Async.Error(error)
+    }
 }
