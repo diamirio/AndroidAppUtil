@@ -54,7 +54,7 @@ bintray {
 
     configurations = ['archives']
     pkg {
-        repo = 'AndroidAppUtil'
+        repo = 'AndroidUtil'
         name = artifact.id
         desc = artifact.description
         websiteUrl = projectWebUrl
