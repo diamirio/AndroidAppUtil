@@ -1,5 +1,11 @@
 apply from: "$rootDir/library-module.gradle"
 
+android {
+    defaultConfig {
+        versionName "1"
+    }
+}
+
 dependencies {
     implementation deps.rxjava2.core
 }

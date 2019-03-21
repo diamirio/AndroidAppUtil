@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
 
 android {
-    compileSdkVersion rootProject.ext.config.targetSdkVersion
+    compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion rootProject.ext.config.minSdkVersion
-        targetSdkVersion rootProject.ext.config.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 28
         consumerProguardFiles 'proguard-rules.pro'
     }
     sourceSets {
