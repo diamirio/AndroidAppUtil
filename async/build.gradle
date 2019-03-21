@@ -2,6 +2,7 @@ apply from: "$rootDir/library-module.gradle"
 
 android {
     defaultConfig {
+        //do not change this version, "fastlane deploy" does this for you
         versionName "1"
     }
 }

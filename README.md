@@ -55,7 +55,12 @@ For the `currentVersion` refer to **releases tab** above.
 
 ## Contribute
 
-Pull requests are welcome. Do not forget to add proguard rules and `deploy.settings` to your module.
+Pull requests are welcome. 
+
+When creating a new module, do not forget to:
+* add a `proguard-rules.pro` with the proguard rules for dependencies in your new module 
+* add a `deploy.settings` to your module with information for bintray
+* add your module to the modules array in the `fastlange/Fastfile` file
 
 ## Build and Deploy
 
