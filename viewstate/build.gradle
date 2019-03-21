@@ -1,0 +1,6 @@
+apply from: "$rootDir/library-module.gradle"
+
+dependencies {
+    implementation deps.appcompat
+    implementation deps.gson
+}

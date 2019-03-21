@@ -1,1 +1,1 @@
-include ':androidutil'
+include ':core', ':async', ':validation', ':optional', ':viewstate', ':network', ':permissions'

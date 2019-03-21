@@ -1,0 +1,15 @@
+apply from: "$rootDir/library-module.gradle"
+
+android {
+    defaultConfig {
+        versionName "1"
+    }
+}
+
+dependencies {
+    implementation deps.appcompat
+    implementation deps.material
+    implementation deps.androidxcore
+    implementation deps.rxjava2.core
+    implementation deps.rxjava2.android
+}

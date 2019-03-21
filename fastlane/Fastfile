@@ -1,18 +1,3 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
 
 
@@ -20,21 +5,33 @@ platform :android do
   desc "Run all tests and deploy to bintray"
   lane :deploy do
     gradle(task: "test clean")
-    increment_version_and_commit lane:self.runner.current_lane
+
+    increment_versions
+
+    commit lane:self.runner.current_lane
+
     gradle(task: "build install bintrayUpload")
+
     push_to_git_remote(remote_branch: git_branch)
   end
 end
 
 
-def increment_version_and_commit(options)
-  version_name = android_get_version_name(gradle_file: "androidutil/build.gradle")
-  new_version_name = version_name.to_i + 1
+desc "Increments the versions of all modules"
+def increment_versions(options)
+  new_version_name = android_get_version_name(
+    gradle_file: "core/build.gradle"
+  ).to_i + 1
+
   android_set_version_name(
     version_name: new_version_name.to_s,
-    gradle_file: "androidutil/build.gradle"
+    gradle_file: "core/build.gradle"
   )
+end
 
+
+desc "Commits code to repository"
+def commit(options)
   git_commit(path: ".", message: "Version: " + get_tag_name(options))
   tagCurrentVersion
 end
@@ -45,5 +42,7 @@ private_lane :tagCurrentVersion do |options|
 end
 
 def get_tag_name(options)
-  return "v" + android_get_version_name(gradle_file: "androidutil/build.gradle")
+  return "v" + android_get_version_name(
+    gradle_file: "core/build.gradle"
+  )
 end

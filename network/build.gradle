@@ -1,0 +1,7 @@
+apply from: "$rootDir/library-module.gradle"
+
+dependencies {
+    implementation deps.rxjava2.core
+    implementation deps.retrofit
+    implementation deps.gson
+}

@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka-android'
+
+android {
+    compileSdkVersion rootProject.ext.config.targetSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.config.minSdkVersion
+        targetSdkVersion rootProject.ext.config.targetSdkVersion
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+dependencies {
+    implementation deps.kotlin
+}
+
+apply from: "$rootDir/deploy.gradle"

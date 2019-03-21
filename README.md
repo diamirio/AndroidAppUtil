@@ -14,7 +14,40 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.tailoredapps:androidutil:{currentVersion}'
+    /**
+     * Core Util package, containing multiple extensions. 
+     */
+    implementation 'com.tailoredapps.androidutil:core:{currentVersion}'
+    
+    /**
+     * Helper for asynchronous resource loading.
+     */
+    implementation 'com.tailoredapps.androidutil:async:{currentVersion}'
+    
+    /**
+     * NetworkResponse and Retrofit extensions.
+     */    
+    implementation 'com.tailoredapps.androidutil:network:{currentVersion}'
+    
+    /**
+     * A wrapper for nullable types. Mostly needed for Kotlin compliance with Java APIs such as RxJava.
+     */    
+    implementation 'com.tailoredapps.androidutil:optional:{currentVersion}'
+    
+    /**
+     * Android Manifest Permissions, only better.
+     */    
+    implementation 'com.tailoredapps.androidutil:permissions:{currentVersion}'
+    
+    /**
+     * Validator and Rules for Value validation.
+     */    
+    implementation 'com.tailoredapps.androidutil:validation:{currentVersion}'
+    
+    /**
+     * Easily save and restore properties of views. 
+     */    
+    implementation 'com.tailoredapps.androidutil:viewstate:{currentVersion}'
 }
 ```
 
@@ -22,7 +55,7 @@ For the `currentVersion` refer to **releases tab** above.
 
 ## Contribute
 
-Pull requests are welcome. Do not forget to add proguard rules to the `proguard-rules.pro` when adding a new dependency.
+Pull requests are welcome. Do not forget to add proguard rules and `deploy.settings` to your module.
 
 ## Build and Deploy
 

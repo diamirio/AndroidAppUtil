@@ -1,0 +1,3 @@
+id = 'core'
+name = 'AndroidAppUtil - Core'
+description = 'Core Util package, containing multiple extensions.'
