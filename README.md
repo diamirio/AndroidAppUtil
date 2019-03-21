@@ -64,7 +64,9 @@ When creating a new module, do not forget to:
 
 ## Build and Deploy
 
-To build and deploy the library to bintray, add your changes, commit and then call `fastlane deploy`. This will automatically update the version, commit and push to git and then upload to bintray.
+1. Increment `libraryVersion` in `build.gradle` of `Project: AndroidAppUtil`.
+2. Tag your new version, commit and push to repository.
+3. `fastlane deploy` to build and upload to bintray.
 
 ## License
 

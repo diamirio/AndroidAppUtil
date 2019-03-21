@@ -1,53 +1,10 @@
 default_platform(:android)
 
-
-modules = ["async", "core", "network", "optional", "permissions", "validation", "viewstate"]
-
-
 platform :android do
-  desc "Run all tests and deploy to bintray"
+  desc "Run all tests and deploy to jcenter"
   lane :deploy do
-    gradle(task: "test")
-    gradle(task: "clean")
-
-    for m in modules
-      increment_version_for_module(name: m) 
-    end
-
-    commit lane:self.runner.current_lane
-
-    gradle(task: "build")
-    gradle(task: "install")
-    gradle(task: "bintrayUpload")
-
-    push_to_git_remote(remote_branch: git_branch)
+    gradle(
+        task: "test clean build install bintrayUpload"
+    )
   end
-end
-
-
-desc "Increment the version of a module with the name of the folder"
-def increment_version_for_module(options)
-  old_version_name = android_get_version_name(gradle_file: options[:name] + "/build.gradle")
-  new_version_name = old_version_name.to_i + 1
-
-  android_set_version_name(
-    version_name: new_version_name.to_s,
-    gradle_file: options[:name] + "/build.gradle"
-  )
-end
-
-
-desc "Commits to git repository"
-def commit(options)
-  git_commit(path: ".", message: "Version: " + get_tag_name(options))
-  tagCurrentVersion
-end
-
-desc "Tags the current commit with the tag name"
-private_lane :tagCurrentVersion do |options|
-  add_git_tag(tag: get_tag_name(options))
-end
-
-def get_tag_name(options)
-  return "v" + android_get_version_name(gradle_file: "core/build.gradle")
 end

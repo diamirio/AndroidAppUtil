@@ -1,12 +1,5 @@
 apply from: "$rootDir/library-module.gradle"
 
-android {
-    defaultConfig {
-        //do not change this version, "fastlane deploy" does this for you
-        versionName "2"
-    }
-}
-
 dependencies {
     implementation deps.appcompat
     implementation deps.rxjava2.core

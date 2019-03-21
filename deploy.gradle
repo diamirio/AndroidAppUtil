@@ -12,7 +12,7 @@ def projectWebUrl = 'https://github.com/tailoredmedia/AndroidAppUtil'
 def projectGitUrl = 'https://github.com/tailoredmedia/AndroidAppUtil.git'
 
 group = projectGroupId
-version = android.defaultConfig.versionName
+version = libraryVersion
 
 
 install {
