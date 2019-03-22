@@ -17,37 +17,37 @@ dependencies {
     /**
      * Core Util package, containing multiple extensions. 
      */
-    implementation 'com.tailoredapps.androidutil:core:{currentVersion}'
+    implementation "com.tailoredapps.androidutil:core:${versions.androidutil}"
     
     /**
      * Helper for asynchronous resource loading.
      */
-    implementation 'com.tailoredapps.androidutil:async:{currentVersion}'
+    implementation "com.tailoredapps.androidutil:async:${versions.androidutil}"
     
     /**
      * NetworkResponse and Retrofit extensions.
      */    
-    implementation 'com.tailoredapps.androidutil:network:{currentVersion}'
+    implementation "com.tailoredapps.androidutil:network:${versions.androidutil}"
     
     /**
      * A wrapper for nullable types. Mostly needed for Kotlin compliance with Java APIs such as RxJava.
      */    
-    implementation 'com.tailoredapps.androidutil:optional:{currentVersion}'
+    implementation "com.tailoredapps.androidutil:optional:${versions.androidutil}"
     
     /**
      * Android Manifest Permissions, only better.
      */    
-    implementation 'com.tailoredapps.androidutil:permissions:{currentVersion}'
+    implementation "com.tailoredapps.androidutil:permissions:${versions.androidutil}"
     
     /**
      * Validator and Rules for Value validation.
      */    
-    implementation 'com.tailoredapps.androidutil:validation:{currentVersion}'
+    implementation "com.tailoredapps.androidutil:validation:${versions.androidutil}"
     
     /**
      * Easily save and restore properties of views. 
      */    
-    implementation 'com.tailoredapps.androidutil:viewstate:{currentVersion}'
+    implementation "com.tailoredapps.androidutil:viewstate:${versions.androidutil}"
 }
 ```
 
