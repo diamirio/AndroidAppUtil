@@ -15,7 +15,7 @@ allprojects {
 
 dependencies {
     /**
-     * Core Util package, containing multiple extensions. 
+     * Core Util package, containing multiple Android extensions. 
      */
     implementation "com.tailoredapps.androidutil:core:${versions.androidutil}"
     
