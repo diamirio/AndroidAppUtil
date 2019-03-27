@@ -52,6 +52,7 @@ dependencies {
 ```
 
 For the `currentVersion` refer to **releases tab** above.
+Example: `implementation com.tailoredapps.androidutil:core:3`
 
 ## Contribute
 
