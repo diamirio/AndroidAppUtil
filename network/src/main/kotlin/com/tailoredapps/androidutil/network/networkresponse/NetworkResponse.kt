@@ -19,7 +19,6 @@ package com.tailoredapps.androidutil.network.networkresponse
 import retrofit2.HttpException
 import java.io.IOException
 
-
 class NetworkUnavailableException : IOException()
 
 /**
@@ -30,4 +29,3 @@ sealed class NetworkResponse<out SuccessType : Any> {
     data class ServerError(val error: HttpException) : NetworkResponse<Nothing>()
     data class NetworkError(val error: NetworkUnavailableException) : NetworkResponse<Nothing>()
 }
-

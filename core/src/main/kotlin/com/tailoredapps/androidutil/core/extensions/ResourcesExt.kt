@@ -21,7 +21,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
 
-
 /**
  * Creates a [CharSequence] of bulleted points from an [Iterable].
  */

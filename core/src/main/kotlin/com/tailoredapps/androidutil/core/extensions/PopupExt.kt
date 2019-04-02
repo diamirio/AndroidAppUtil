@@ -24,12 +24,10 @@ import androidx.annotation.MenuRes
 import androidx.core.view.forEach
 import io.reactivex.Single
 
-
 sealed class RxPopupAction {
     object Cancelled : RxPopupAction()
     data class Selected(@IdRes val itemId: Int, val menuItem: MenuItem) : RxPopupAction()
 }
-
 
 /**
  * Convenience function to show a popup menu for a View.

@@ -16,7 +16,6 @@
 
 package com.tailoredapps.androidutil.permissions
 
-
 /**
  * Result of a [Permission] state query.
  */

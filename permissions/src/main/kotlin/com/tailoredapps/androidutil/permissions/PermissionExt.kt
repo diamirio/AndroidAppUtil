@@ -22,8 +22,6 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import java.lang.RuntimeException
-
 
 /**
  * Queries the [PermissionState] of a [Permission].

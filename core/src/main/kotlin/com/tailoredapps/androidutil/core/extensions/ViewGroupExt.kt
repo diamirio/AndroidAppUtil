@@ -21,10 +21,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 
-
 /**
  * Inflates a View in a ViewGroup.
  */
 fun <V : ViewGroup> V.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
     LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-

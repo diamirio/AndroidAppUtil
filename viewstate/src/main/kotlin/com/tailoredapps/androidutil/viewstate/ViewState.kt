@@ -20,7 +20,6 @@ import android.os.Bundle
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-
 /**
  * A property that is saved through [ViewState].
  * e.g. val someInteger: Int by viewStateProperty(420)
@@ -28,7 +27,6 @@ import kotlin.reflect.KProperty
 interface ViewStateProperty<T : Any> {
     operator fun provideDelegate(thisRef: Any, prop: KProperty<*>): ReadWriteProperty<Any, T>
 }
-
 
 /**
  * An Activity or Fragment that implements [ViewState], can easily store and restore properties from a bundle state.
@@ -38,7 +36,6 @@ interface ViewState {
     fun restoreStateFrom(state: Bundle?)
     fun storeStateIn(state: Bundle)
 }
-
 
 /**
  * Default [ViewState] Implementation. Can be used to implement [ViewState] by delegation.

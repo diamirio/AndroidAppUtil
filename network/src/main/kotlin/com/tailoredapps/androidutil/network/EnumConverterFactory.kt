@@ -21,7 +21,6 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
 
-
 /**
  * EnumConverterFactory that enables Retrofit to serialize all enums with their [SerializedName].
  *

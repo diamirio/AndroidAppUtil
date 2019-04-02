@@ -19,7 +19,6 @@ package com.tailoredapps.androidutil.core.extensions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
 /**
  * Smooth scrolls up a [RecyclerView] when it has not been scrolled past the firstVisiblePosition items.
  * Otherwise the scroll will happen instantly.
@@ -28,7 +27,7 @@ fun <R : RecyclerView> R.smoothScrollUp(firstVisiblePosition: Int = 50) {
     val layoutManager = layoutManager ?: return
     val firstVisible = when (layoutManager) {
         is LinearLayoutManager -> layoutManager.findFirstVisibleItemPosition()
-        //todo implement for GridLayoutManager and StaggeredGridLayoutManager
+        // todo implement for GridLayoutManager and StaggeredGridLayoutManager
         else -> Int.MAX_VALUE
     }
 
@@ -50,7 +49,7 @@ fun <R : RecyclerView> R.addScrolledPastItemListener(
             when (layoutManager) {
                 is LinearLayoutManager -> scrolledPast.invoke(layoutManager.findFirstVisibleItemPosition() > itemIndex)
                 else -> {
-                    //todo implement for GridLayoutManager and StaggeredGridLayoutManager
+                    // todo implement for GridLayoutManager and StaggeredGridLayoutManager
                 }
             }
         }
@@ -65,7 +64,7 @@ fun <R : RecyclerView> R.shouldLoadMore(threshold: Int = 8): Boolean {
     val layoutManager = layoutManager ?: return false
     return when (layoutManager) {
         is LinearLayoutManager -> layoutManager.findLastVisibleItemPosition() + threshold > layoutManager.itemCount
-        //todo implement for GridLayoutManager and StaggeredGridLayoutManager
+        // todo implement for GridLayoutManager and StaggeredGridLayoutManager
         else -> false
     }
 }

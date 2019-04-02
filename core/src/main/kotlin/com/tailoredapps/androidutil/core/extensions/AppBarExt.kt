@@ -20,7 +20,6 @@ import android.view.View
 import android.view.ViewTreeObserver
 import com.google.android.material.appbar.AppBarLayout
 
-
 /**
  * Lifts the AppBarLayout according to the scroll of a View.
  *

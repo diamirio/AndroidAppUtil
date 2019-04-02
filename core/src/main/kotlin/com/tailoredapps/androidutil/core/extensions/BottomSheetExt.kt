@@ -19,13 +19,11 @@ package com.tailoredapps.androidutil.core.extensions
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
-
 /**
  * Convenience function to create a [BottomSheetBehavior].
  */
 val <T : View> T.asBottomSheet: BottomSheetBehavior<T>
     get() = BottomSheetBehavior.from(this)
-
 
 /**
  * Convenience function to expand the BottomSheet.

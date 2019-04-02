@@ -27,7 +27,6 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-
 /**
  * A [CallAdapter.Factory] which allows [NetworkResponse] objects to be returned from RxJava
  * streams.
@@ -46,9 +45,9 @@ class NetworkResponseRxJava2CallAdapterFactory private constructor() : CallAdapt
     }
 
     override fun get(
-            returnType: Type,
-            annotations: Array<Annotation>,
-            retrofit: Retrofit
+        returnType: Type,
+        annotations: Array<Annotation>,
+        retrofit: Retrofit
     ): CallAdapter<*, *>? {
         val rawType = getRawType(returnType)
 

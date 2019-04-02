@@ -23,7 +23,6 @@ import com.google.gson.Gson
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-
 internal class StoreAndRestoreProperty<T : Any>(
     private val defaultValue: T,
     private val key: String

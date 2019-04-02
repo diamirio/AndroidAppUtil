@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
-
 /**
  * Fills an intent with extra parameters.
  */
@@ -37,7 +36,6 @@ inline fun <A : Activity, reified T : Any> A.extra(key: String, defaultValue: T?
     else intent.extras?.get(key) as? T ?: defaultValue
 }
 
-
 /**
  * Fills the Fragment arguments with with parameters.
  */
@@ -50,7 +48,6 @@ inline fun <F : Fragment, reified T : Any> F.argument(key: String, defaultValue:
     if (defaultValue == null) arguments?.get(key) as T
     else arguments?.get(key) as? T ?: defaultValue
 }
-
 
 /**
  * Executes a FragmentManager transaction.

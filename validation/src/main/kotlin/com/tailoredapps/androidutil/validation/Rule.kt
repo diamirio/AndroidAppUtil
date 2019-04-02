@@ -18,7 +18,6 @@ package com.tailoredapps.androidutil.validation
 
 import androidx.annotation.StringRes
 
-
 /**
  * Extendable set of Rules that can be used to validate a property.
  */

@@ -23,7 +23,6 @@ import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.MainThreadDisposable
 
-
 /**
  * Returns an Observable that emits BottomSheetBehaviorEvent's of the BottomSheet.
  * Watch out, only one Event Listener can be set on a BottomSheet!
@@ -32,12 +31,10 @@ fun <T : View> T.bottomSheetEvents(): Observable<BottomSheetBehaviorEvent> {
     return BottomSheetBehaviorSlideEventObservable(this)
 }
 
-
 sealed class BottomSheetBehaviorEvent(val bottomSheetView: View) {
     class Slide(bottomSheetView: View, val slideOffset: Float) : BottomSheetBehaviorEvent(bottomSheetView)
     class State(bottomSheetView: View, val newState: Int) : BottomSheetBehaviorEvent(bottomSheetView)
 }
-
 
 internal class BottomSheetBehaviorSlideEventObservable(private val view: View) :
     Observable<BottomSheetBehaviorEvent>() {

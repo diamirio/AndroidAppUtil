@@ -26,11 +26,11 @@ import java.io.IOException
 import java.lang.reflect.Type
 
 internal class NetworkResponseRxJava2CallAdapter<SuccessType : Any>(
-        private val successBodyType: Type,
-        private val delegateAdapter: CallAdapter<SuccessType, Observable<SuccessType>>,
-        private val isFlowable: Boolean,
-        private val isSingle: Boolean,
-        private val isMaybe: Boolean
+    private val successBodyType: Type,
+    private val delegateAdapter: CallAdapter<SuccessType, Observable<SuccessType>>,
+    private val isFlowable: Boolean,
+    private val isSingle: Boolean,
+    private val isMaybe: Boolean
 ) : CallAdapter<SuccessType, Any> {
 
     override fun adapt(call: Call<SuccessType>): Any =

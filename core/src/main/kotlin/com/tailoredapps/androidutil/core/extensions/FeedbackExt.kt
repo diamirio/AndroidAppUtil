@@ -50,7 +50,6 @@ fun <T : Context> T.toast(title: String, duration: Int = Toast.LENGTH_LONG): Toa
     return Toast.makeText(this, title, toastDuration).apply { show() }
 }
 
-
 /**
  * Convenience function to show a snackbar for a View.
  */

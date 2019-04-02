@@ -22,18 +22,15 @@ import androidx.fragment.app.Fragment
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.*
+import java.util.Calendar
 
-
-//Resolves to: year, month (0-11), dayOfMonth (1-31)
+// Resolves to: year, month (0-11), dayOfMonth (1-31)
 data class RxDatePickerDay(val year: Int, val month: Int, val dayOfMonth: Int)
-
 
 sealed class RxDatePickerAction {
     object Cancelled : RxDatePickerAction()
     data class Selected(val day: RxDatePickerDay) : RxDatePickerAction()
 }
-
 
 /**
  * Picks a Date using the default DatePicker.

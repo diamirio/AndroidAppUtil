@@ -18,7 +18,6 @@ package com.tailoredapps.androidutil.network.networkresponse
 
 import io.reactivex.Single
 
-
 /**
  * Extension function that splits a [NetworkResponse] Single into an OnSuccess or OnError emission.
  */
@@ -31,7 +30,6 @@ fun <SuccessType : Any> Single<NetworkResponse<SuccessType>>.split(): Single<out
         }
     }
 }
-
 
 /**
  * Extension function that folds a [NetworkResponse] to a wrapped type that has an success and an error state.

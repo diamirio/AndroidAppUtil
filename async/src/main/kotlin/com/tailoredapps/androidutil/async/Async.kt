@@ -16,7 +16,6 @@
 
 package com.tailoredapps.androidutil.async
 
-
 /**
  * Sealed class that represents an asynchronous load of a resource.
  */

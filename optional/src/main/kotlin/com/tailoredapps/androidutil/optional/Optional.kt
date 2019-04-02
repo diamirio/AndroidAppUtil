@@ -16,7 +16,6 @@
 
 package com.tailoredapps.androidutil.optional
 
-
 /**
  * A wrapper for nullable types. Mostly needed for Kotlin compliance with Java APIs such as RxJava.
  */

@@ -23,7 +23,6 @@ import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.rxkotlin.ofType
 
-
 /**
  * Filters items of type T if they are not null.
  */
@@ -48,7 +47,6 @@ fun <T : Any> Maybe<out Optional<T>>.filterSome(): Maybe<T> =
 fun <T : Any> Single<out Optional<T>>.filterSome(): Maybe<T> =
         ofType<Optional.Some<T>>().map { it.value }
 
-
 /**
  * Filters items of type T if they are null.
  */
@@ -72,7 +70,6 @@ fun <T : Any> Maybe<out Optional<T>>.filterNone(): Maybe<Unit> =
  */
 fun <T : Any> Single<out Optional<T>>.filterNone(): Maybe<Unit> =
         ofType<Optional.None>().map { Unit }
-
 
 /**
  * Filters the item of the specified type T by mapping the Single to a Maybe with type R.

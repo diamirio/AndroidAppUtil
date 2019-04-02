@@ -20,7 +20,6 @@ import android.Manifest
 import android.os.Build
 import androidx.annotation.RequiresApi
 
-
 /**
  * Android Manifest Permissions. Check each one for AndroidManifest.xml tag.
  */

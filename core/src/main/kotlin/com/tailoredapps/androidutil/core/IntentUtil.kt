@@ -21,7 +21,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 
-
 /**
  * Intent util creators.
  */

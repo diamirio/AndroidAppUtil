@@ -22,7 +22,6 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 
-
 /**
  * Shows the keyboard for a view and focuses it.
  */

@@ -29,7 +29,6 @@ import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-
 sealed class RxDialogAction {
     object Positive : RxDialogAction()
     object Negative : RxDialogAction()

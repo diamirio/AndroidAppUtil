@@ -19,7 +19,6 @@ package com.tailoredapps.androidutil.validation
 import androidx.annotation.StringRes
 import io.reactivex.Single
 
-
 /**
  * A Result of a validation by a Validator.
  */
@@ -37,7 +36,6 @@ sealed class ValidationResult {
  */
 val Iterable<ValidationResult>.allValid: Boolean
     get() = all { it.valid }
-
 
 /**
  * A Validator that is initialized with a set of Rules which are checked against for a given value with the

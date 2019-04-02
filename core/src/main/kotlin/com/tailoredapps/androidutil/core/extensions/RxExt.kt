@@ -16,11 +16,14 @@
 
 package com.tailoredapps.androidutil.core.extensions
 
-import io.reactivex.*
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.schedulers.Schedulers
-
 
 /**
  * Observes this on the Android main thread.
@@ -82,14 +85,12 @@ fun <T> Single<T>.subscribeOnIO(): Single<T> = subscribeOn(Schedulers.io())
 @CheckReturnValue
 fun <T> Maybe<T>.subscribeOnIO(): Maybe<T> = subscribeOn(Schedulers.io())
 
-
 /**
  * Converts a Completable to an Observable with a default completion value.
  */
 @CheckReturnValue
 fun <T : Any> Completable.toObservableDefault(completionValue: T): Observable<T> =
     toSingleDefault(completionValue).toObservable()
-
 
 /**
  * Creates an Observable of [T]

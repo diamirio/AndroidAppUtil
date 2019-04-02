@@ -18,7 +18,6 @@ package com.tailoredapps.androidutil.async
 
 import io.reactivex.Observable
 
-
 /**
  * Extension function that materializes an Observable and maps the resulting Notification to the [Async] type.
  */
