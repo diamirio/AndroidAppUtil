@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.core
+package com.tailoredapps.androidutil.ui
 
 import android.content.Context
 import android.content.Intent

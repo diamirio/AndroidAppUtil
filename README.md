@@ -14,10 +14,14 @@ allprojects {
 }
 
 dependencies {
+    def versions = [
+        androidutil: 5
+    ]
+    
     /**
-     * Core Util package, containing multiple Android extensions. 
+     * UI Util package, containing multiple extensions. 
      */
-    implementation "com.tailoredapps.androidutil:core:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:ui:${versions.androidutil}"
     
     /**
      * Helper for asynchronous resource loading.
@@ -51,9 +55,6 @@ dependencies {
 }
 ```
 
-For the `currentVersion` refer to **releases tab** above.  
-Example: `implementation com.tailoredapps.androidutil:core:3`
-
 ## Contribute
 
 Pull requests are welcome. 
@@ -64,7 +65,7 @@ When creating a new module, do not forget to:
 
 ## Build and Deploy
 
-1. Increment `libraryVersion` in `build.gradle` of `Project: AndroidAppUtil`.
+1. Increment `libraryVersion` in `build.gradle` of `Project: AndroidAppUtil`. Increment version in *README.md*
 2. Tag your new version, commit and push to repository.
 3. `fastlane deploy` to build and upload to bintray.
 

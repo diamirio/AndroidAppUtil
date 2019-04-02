@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.core.extensions
+package com.tailoredapps.androidutil.ui.extensions
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

@@ -1,1 +1,1 @@
-include ':core', ':async', ':validation', ':optional', ':viewstate', ':network', ':permissions'
+include ':ui', ':async', ':validation', ':optional', ':viewstate', ':network', ':permissions'

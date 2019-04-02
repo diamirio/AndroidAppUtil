@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.core.rxviews
+package com.tailoredapps.androidutil.ui.rxviews
 
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout

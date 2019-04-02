@@ -14,15 +14,27 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.core.extensions
+package com.tailoredapps.androidutil.ui.extensions
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 /**
- * Inflates a View in a ViewGroup.
+ * Convenience function to create a [BottomSheetBehavior].
  */
-fun <V : ViewGroup> V.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
-    LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+val <T : View> T.asBottomSheet: BottomSheetBehavior<T>
+    get() = BottomSheetBehavior.from(this)
+
+/**
+ * Convenience function to expand the BottomSheet.
+ */
+fun BottomSheetBehavior<*>.expand() {
+    this.state = BottomSheetBehavior.STATE_EXPANDED
+}
+
+/**
+ * Convenience function to collapse the BottomSheet.
+ */
+fun BottomSheetBehavior<*>.collapse() {
+    this.state = BottomSheetBehavior.STATE_COLLAPSED
+}
