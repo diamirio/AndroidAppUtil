@@ -21,28 +21,30 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
+import androidx.core.view.children
 import androidx.core.view.forEach
 import io.reactivex.Single
 
 sealed class RxPopupAction {
     object Cancelled : RxPopupAction()
-    data class Selected(@IdRes val itemId: Int, val menuItem: MenuItem) : RxPopupAction()
+    data class Selected(val index: Int, val menuItem: MenuItem) : RxPopupAction()
 }
 
 /**
  * Convenience function to show a popup menu for a View.
  */
-fun <T : View> T.rxPopup(@MenuRes menuId: Int, itemsAdapter: ((MenuItem) -> Unit)? = null): Single<RxPopupAction> = Single.create { emitter ->
-    val menu = PopupMenu(context, this).apply {
-        menuInflater.inflate(menuId, menu)
-        itemsAdapter?.let { adapter -> menu.forEach { adapter.invoke(it) } }
-        setOnMenuItemClickListener {
-            emitter.onSuccess(RxPopupAction.Selected(it.itemId, it))
-            true
+fun <T : View> T.rxPopup(@MenuRes menuId: Int, itemsAdapter: ((MenuItem) -> Unit)? = null): Single<RxPopupAction> =
+    Single.create { emitter ->
+        val menu = PopupMenu(context, this).apply {
+            menuInflater.inflate(menuId, menu)
+            itemsAdapter?.let { adapter -> menu.forEach { adapter.invoke(it) } }
+            setOnMenuItemClickListener {
+                emitter.onSuccess(RxPopupAction.Selected(menu.children.indexOf(it), it))
+                true
+            }
+            setOnDismissListener { emitter.onSuccess(RxPopupAction.Cancelled) }
         }
-        setOnDismissListener { emitter.onSuccess(RxPopupAction.Cancelled) }
-    }
 
-    emitter.setCancellable { menu.dismiss() }
-    menu.show()
-}
+        emitter.setCancellable { menu.dismiss() }
+        menu.show()
+    }

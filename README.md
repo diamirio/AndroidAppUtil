@@ -15,7 +15,7 @@ allprojects {
 
 dependencies {
     def versions = [
-        androidutil: 5
+        androidutil: 6
     ]
     
     /**
@@ -66,8 +66,9 @@ When creating a new module, do not forget to:
 ## Build and Deploy
 
 1. Increment `libraryVersion` in `build.gradle` of `Project: AndroidAppUtil`. Increment version in *README.md*
-2. Tag your new version, commit and push to repository.
-3. `fastlane deploy` to build and upload to bintray.
+2. Commit your changes.
+2. `fastlane deploy` to build and upload to bintray.
+3. Tag your new version and push to repository.
 
 ## License
 
