@@ -19,7 +19,6 @@ package com.tailoredapps.androidutil.ui.extensions
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.core.view.children
 import androidx.core.view.forEach
