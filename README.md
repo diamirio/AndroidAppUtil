@@ -15,7 +15,7 @@ allprojects {
 
 dependencies {
     def versions = [
-        androidutil: 6
+        androidutil: 7
     ]
     
     /**
@@ -69,6 +69,25 @@ When creating a new module, do not forget to:
 2. Commit your changes.
 2. `fastlane deploy` to build and upload to bintray.
 3. Tag your new version and push to repository.
+
+## AboutLibraries
+
+``` xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_aautil" />
+    <string name="library_aautil_author">Tailored Apps</string>
+    <string name="library_aautil_authorWebsite">https://www.tailored-apps.com/</string>
+    <string name="library_aautil_libraryName">AndroidAppUtil</string>
+    <string name="library_aautil_libraryDescription">AndroidUtil is a set of utility classes for Android application development.</string>
+    <string name="library_aautil_libraryWebsite">https://github.com/tailoredmedia/AndroidAppUtil</string>
+    <string name="library_aautil_libraryVersion">7</string>
+    <string name="library_aautil_isOpenSource">true</string>
+    <string name="library_aautil_repositoryLink">https://github.com/tailoredmedia/AndroidAppUtil.git</string>
+    <string name="library_aautil_classPath">com.tailoredapps.androidutil</string>
+    <string name="library_aautil_licenseId">apache_2_0</string>
+</resources>
+```
 
 ## License
 

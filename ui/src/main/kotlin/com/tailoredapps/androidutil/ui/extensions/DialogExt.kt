@@ -200,7 +200,7 @@ class RxAlert(
         builder.setSingleChoiceItems(listItems, presetIndex) { _, which ->
             emitter.onSuccess(
                 RxDialogAction.Selected(
-                    listItems[which],
+                    elements[which],
                     which
                 )
             )
