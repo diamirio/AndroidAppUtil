@@ -14,23 +14,8 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.optional
+package com.tailoredapps.androidutil.network
 
-/**
- * A wrapper for nullable types. Mostly needed for Kotlin compliance with Java APIs such as RxJava.
- */
-sealed class Optional<out Type : Any> {
-    open operator fun invoke(): Type? = null
+import java.io.IOException
 
-    object None : Optional<Nothing>()
-
-    data class Some<out Type : Any>(val value: Type) : Optional<Type>() {
-        override fun invoke(): Type = value
-    }
-}
-
-/**
- * Wraps a nullable instance of T to an [Optional].
- */
-val <T : Any> T?.asOptional: Optional<T>
-    get() = if (this == null) Optional.None else Optional.Some(this)
+class NetworkUnavailableException(throwable: Throwable) : IOException("Network is not available.", throwable)

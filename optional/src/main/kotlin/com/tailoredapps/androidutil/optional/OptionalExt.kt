@@ -26,48 +26,56 @@ import io.reactivex.rxkotlin.ofType
 /**
  * Filters items of type T if they are not null.
  */
+@CheckReturnValue
 fun <T : Any> Observable<out Optional<T>>.filterSome(): Observable<T> =
         ofType<Optional.Some<T>>().map { it.value }
 
 /**
  * Filters items of type T if they are not null.
  */
+@CheckReturnValue
 fun <T : Any> Flowable<out Optional<T>>.filterSome(): Flowable<T> =
         ofType<Optional.Some<T>>().map { it.value }
 
 /**
  * Filters item of type T if it is not null.
  */
+@CheckReturnValue
 fun <T : Any> Maybe<out Optional<T>>.filterSome(): Maybe<T> =
         ofType<Optional.Some<T>>().map { it.value }
 
 /**
  * Filters item of type T if it is not null.
  */
+@CheckReturnValue
 fun <T : Any> Single<out Optional<T>>.filterSome(): Maybe<T> =
         ofType<Optional.Some<T>>().map { it.value }
 
 /**
  * Filters items of type T if they are null.
  */
+@CheckReturnValue
 fun <T : Any> Observable<out Optional<T>>.filterNone(): Observable<Unit> =
         ofType<Optional.None>().map { Unit }
 
 /**
  * Filters items of type T if they are null.
  */
+@CheckReturnValue
 fun <T : Any> Flowable<out Optional<T>>.filterNone(): Flowable<Unit> =
         ofType<Optional.None>().map { Unit }
 
 /**
  * Filters item of type T if it is null.
  */
+@CheckReturnValue
 fun <T : Any> Maybe<out Optional<T>>.filterNone(): Maybe<Unit> =
         ofType<Optional.None>().map { Unit }
 
 /**
  * Filters item of type T if it is null.
  */
+@CheckReturnValue
 fun <T : Any> Single<out Optional<T>>.filterNone(): Maybe<Unit> =
         ofType<Optional.None>().map { Unit }
 

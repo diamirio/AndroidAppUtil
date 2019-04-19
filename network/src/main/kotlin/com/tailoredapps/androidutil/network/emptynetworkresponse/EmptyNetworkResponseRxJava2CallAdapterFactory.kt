@@ -15,33 +15,32 @@
  * under the License.
  */
 
-package com.tailoredapps.androidutil.network.networkresponse
+package com.tailoredapps.androidutil.network.emptynetworkresponse
 
 import com.google.gson.reflect.TypeToken
-import io.reactivex.Flowable
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.CallAdapter
+import retrofit2.Response
 import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
 /**
- * A [CallAdapter.Factory] which allows [NetworkResponse] objects to be returned from RxJava
+ * A [CallAdapter.Factory] which allows [EmptyNetworkResponse] objects to be returned from RxJava
  * streams.
  *
- * Adding this class to [Retrofit] allows you to return [Observable], [Flowable], [Single], or
- * [Maybe] types parameterized with [NetworkResponse] from service methods.
+ * Adding this class to [Retrofit] allows you to return the [Single] type parameterized with [EmptyNetworkResponse]
+ * from service methods.
  *
  * Note: This adapter must be registered before an adapter that is capable of adapting RxJava
  * streams.
  */
-class NetworkResponseRxJava2CallAdapterFactory private constructor() : CallAdapter.Factory() {
+class EmptyNetworkResponseRxJava2CallAdapterFactory private constructor() : CallAdapter.Factory() {
 
     companion object {
         @JvmStatic
-        fun create() = NetworkResponseRxJava2CallAdapterFactory()
+        fun create() = EmptyNetworkResponseRxJava2CallAdapterFactory()
     }
 
     override fun get(
@@ -51,10 +50,7 @@ class NetworkResponseRxJava2CallAdapterFactory private constructor() : CallAdapt
     ): CallAdapter<*, *>? {
         val rawType = getRawType(returnType)
 
-        val isFlowable = rawType === Flowable::class.java
-        val isSingle = rawType === Single::class.java
-        val isMaybe = rawType === Maybe::class.java
-        if (rawType !== Observable::class.java && !isFlowable && !isSingle && !isMaybe) {
+        if (rawType !== Single::class.java) {
             return null
         }
 
@@ -62,26 +58,18 @@ class NetworkResponseRxJava2CallAdapterFactory private constructor() : CallAdapt
             throw IllegalStateException("${rawType.simpleName} return type must be parameterized as ${rawType.simpleName}<Foo> or ${rawType.simpleName}<? extends Foo>")
         }
 
-        val observableEmissionType = getParameterUpperBound(0, returnType)
-        if (getRawType(observableEmissionType) != NetworkResponse::class.java) {
+        val singleEmissionType = getParameterUpperBound(0, returnType)
+        if (getRawType(singleEmissionType) != EmptyNetworkResponse::class.java) {
             return null
         }
 
-        if (observableEmissionType !is ParameterizedType) {
-            throw IllegalStateException("NetworkResponse must be parameterized as NetworkResponse<SuccessBody>")
-        }
-
-        val successBodyType = getParameterUpperBound(0, observableEmissionType)
-        val delegateType = TypeToken.getParameterized(Observable::class.java, successBodyType).type
+        val bodyType = TypeToken.getParameterized(Response::class.java, object : TypeToken<Void>() {}.type).type
+        val delegateType = TypeToken.getParameterized(Observable::class.java, bodyType).type
         val delegateAdapter = retrofit.nextCallAdapter(this, delegateType, annotations)
 
         @Suppress("UNCHECKED_CAST") // Type of delegateAdapter is not known at compile time.
-        return NetworkResponseRxJava2CallAdapter(
-            successBodyType,
-            delegateAdapter as CallAdapter<Any, Observable<Any>>,
-            isFlowable,
-            isSingle,
-            isMaybe
+        return EmptyNetworkResponseRxJava2CallAdapter(
+            delegateAdapter as CallAdapter<Response<Void>, Observable<Response<Void>>>
         )
     }
 }

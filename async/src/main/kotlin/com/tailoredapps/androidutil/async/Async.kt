@@ -36,7 +36,8 @@ sealed class Async<out T>(val complete: Boolean, val shouldLoad: Boolean) {
         get() = this is Loading
 
     companion object {
-        fun <T : Any> success(element: T): Async.Success<T> = Async.Success(element)
-        fun <T : Throwable> error(error: T): Async.Error = Async.Error(error)
+        fun emptySuccess(): Success<Unit> = Success(Unit)
+        fun <T : Any> success(element: T): Success<T> = Success(element)
+        fun <T : Throwable> error(error: T): Error = Error(error)
     }
 }

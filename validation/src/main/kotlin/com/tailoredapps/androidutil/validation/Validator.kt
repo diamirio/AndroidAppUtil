@@ -18,6 +18,7 @@ package com.tailoredapps.androidutil.validation
 
 import androidx.annotation.StringRes
 import io.reactivex.Single
+import io.reactivex.annotations.CheckReturnValue
 
 /**
  * A Result of a validation by a Validator.
@@ -59,5 +60,6 @@ class Validator<T : Any>(rules: Iterable<Rule<T>>) {
 /**
  * Validates an input with this Validator as a RxJava Single.
  */
+@CheckReturnValue
 fun <T : Any> Validator<T>.rxValidate(input: T?): Single<ValidationResult> =
     Single.fromCallable { validate(input) }

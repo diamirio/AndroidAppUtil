@@ -17,10 +17,32 @@
 package com.tailoredapps.androidutil.async
 
 import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.annotations.Experimental
 
 /**
- * Extension function that materializes an Observable and maps the resulting Notification to the [Async] type.
+ * Extension function that materializes an [Single] and maps the resulting Notification to the [Async] type.
  */
+@Experimental
+@CheckReturnValue
+fun <T : Any> Single<T>.mapToAsync(): Single<Async<T>> {
+    return materialize()
+        .flatMap {
+            val value = it.value
+            val error = it.error
+            when {
+                it.isOnNext && value != null -> Single.just(Async.Success(value))
+                it.isOnError && error != null -> Single.just(Async.Error(error))
+                else -> Single.never()
+            }
+        }
+}
+
+/**
+ * Extension function that materializes an [Observable] and maps the resulting Notification to the [Async] type.
+ */
+@CheckReturnValue
 fun <T : Any> Observable<T>.mapToAsync(): Observable<Async<T>> {
     return materialize()
         .flatMap {

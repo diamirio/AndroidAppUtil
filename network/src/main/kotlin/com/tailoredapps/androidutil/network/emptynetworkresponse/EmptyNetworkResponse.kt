@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.androidutil.network.networkresponse
+package com.tailoredapps.androidutil.network.emptynetworkresponse
 
 import com.tailoredapps.androidutil.network.NetworkUnavailableException
 import retrofit2.HttpException
 
 /**
- * Sealed class that wraps success or error result of a network call. Use this for [Single], [Observable]
- * or [Flowable].
+ * Sealed class that wraps success or error result of a network call. Use this with [Single], instead
+ * of [Completable].
  */
-sealed class NetworkResponse<out SuccessType : Any> {
-    data class Success<SuccessType : Any>(val element: SuccessType) : NetworkResponse<SuccessType>()
-    data class ServerError(val error: HttpException) : NetworkResponse<Nothing>()
-    data class NetworkError(val error: NetworkUnavailableException) : NetworkResponse<Nothing>()
+sealed class EmptyNetworkResponse {
+    object Success : EmptyNetworkResponse()
+    data class ServerError(val error: HttpException) : EmptyNetworkResponse()
+    data class NetworkError(val error: NetworkUnavailableException) : EmptyNetworkResponse()
 }

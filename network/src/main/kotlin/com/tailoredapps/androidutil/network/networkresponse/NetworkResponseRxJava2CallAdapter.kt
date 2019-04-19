@@ -17,6 +17,7 @@
 
 package com.tailoredapps.androidutil.network.networkresponse
 
+import com.tailoredapps.androidutil.network.NetworkUnavailableException
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Observable
 import retrofit2.Call
@@ -33,33 +34,23 @@ internal class NetworkResponseRxJava2CallAdapter<SuccessType : Any>(
     private val isMaybe: Boolean
 ) : CallAdapter<SuccessType, Any> {
 
-    override fun adapt(call: Call<SuccessType>): Any =
-            delegateAdapter.adapt(call)
-                    .flatMap { Observable.just<NetworkResponse<SuccessType>>(
-                        NetworkResponse.Success(it)
-                    ) }
-                    .onErrorResumeNext { throwable: Throwable ->
-                        when (throwable) {
-                            is HttpException -> Observable.just(
-                                NetworkResponse.ServerError(
-                                    throwable
-                                )
-                            )
-                            is IOException -> Observable.just(
-                                NetworkResponse.NetworkError(
-                                    NetworkUnavailableException()
-                                )
-                            )
-                            else -> Observable.error(throwable)
-                        }
-                    }.run {
-                        when {
-                            isFlowable -> this.toFlowable(BackpressureStrategy.LATEST)
-                            isSingle -> this.singleOrError()
-                            isMaybe -> this.singleElement()
-                            else -> this
-                        }
-                    }
-
     override fun responseType(): Type = successBodyType
+
+    override fun adapt(call: Call<SuccessType>): Any =
+        delegateAdapter.adapt(call)
+            .map<NetworkResponse<SuccessType>> { NetworkResponse.Success(it) }
+            .onErrorResumeNext { throwable: Throwable ->
+                when (throwable) {
+                    is HttpException -> Observable.just(NetworkResponse.ServerError(throwable))
+                    is IOException -> Observable.just(NetworkResponse.NetworkError(NetworkUnavailableException(throwable)))
+                    else -> Observable.error(throwable)
+                }
+            }.let {
+                when {
+                    isFlowable -> it.toFlowable(BackpressureStrategy.LATEST)
+                    isSingle -> it.singleOrError()
+                    isMaybe -> it.singleElement()
+                    else -> it
+                }
+            }
 }

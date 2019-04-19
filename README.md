@@ -15,7 +15,7 @@ allprojects {
 
 dependencies {
     def versions = [
-        androidutil: 7
+        androidutil: 8
     ]
     
     /**
