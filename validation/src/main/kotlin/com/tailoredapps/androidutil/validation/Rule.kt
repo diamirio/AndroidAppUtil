@@ -28,8 +28,7 @@ interface Rule<T : Any> {
     fun validate(input: T?): Boolean
 }
 
-class NotNullRule<T : Any>(@StringRes override val errorMessage: Int) :
-    Rule<T> {
+class NotNullRule<T : Any>(@StringRes override val errorMessage: Int) : Rule<T> {
     override fun validate(input: T?) = input != null
 }
 

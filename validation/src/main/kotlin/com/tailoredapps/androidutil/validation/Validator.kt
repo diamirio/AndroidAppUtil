@@ -25,11 +25,11 @@ import io.reactivex.annotations.CheckReturnValue
  */
 sealed class ValidationResult {
     object Unvalidated : ValidationResult()
-    object Valid : ValidationResult()
+    data class Valid<T : Any?>(val value: T) : ValidationResult()
     data class Invalid(@StringRes val errorMessage: Int) : ValidationResult()
 
     val valid: Boolean
-        get() = this is Valid
+        get() = this is Valid<*>
 }
 
 /**
@@ -53,7 +53,7 @@ class Validator<T : Any>(rules: Iterable<Rule<T>>) {
                 return ValidationResult.Invalid(it.errorMessage)
             }
         }
-        return ValidationResult.Valid
+        return ValidationResult.Valid(input)
     }
 }
 

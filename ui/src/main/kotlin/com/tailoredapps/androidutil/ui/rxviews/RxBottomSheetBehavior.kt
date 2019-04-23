@@ -28,7 +28,7 @@ import io.reactivex.android.MainThreadDisposable
  * Watch out, only one Event Listener can be set on a BottomSheet!
  */
 fun <T : View> T.bottomSheetEvents(): Observable<BottomSheetBehaviorEvent> {
-    return BottomSheetBehaviorSlideEventObservable(this)
+    return BottomSheetBehaviorEventObservable(this)
 }
 
 sealed class BottomSheetBehaviorEvent(val bottomSheetView: View) {
@@ -36,7 +36,7 @@ sealed class BottomSheetBehaviorEvent(val bottomSheetView: View) {
     class State(bottomSheetView: View, val newState: Int) : BottomSheetBehaviorEvent(bottomSheetView)
 }
 
-internal class BottomSheetBehaviorSlideEventObservable(private val view: View) :
+internal class BottomSheetBehaviorEventObservable(private val view: View) :
     Observable<BottomSheetBehaviorEvent>() {
     override fun subscribeActual(observer: Observer<in BottomSheetBehaviorEvent>) {
         if (view.layoutParams !is CoordinatorLayout.LayoutParams) {
