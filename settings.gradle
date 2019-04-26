@@ -1,1 +1,1 @@
-include ':ui', ':async', ':validation', ':optional', ':viewstate', ':network', ':permissions'
+include ':util-ui', ':util-async', ':util-validation', ':util-optional', ':util-viewstate', ':util-network', ':util-permissions', ':util-firebase'

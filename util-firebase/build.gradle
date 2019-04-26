@@ -1,0 +1,13 @@
+apply from: "$rootDir/library-module.gradle"
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation deps.rxjava2.core
+    implementation deps.rxjava2.kotlin
+    implementation deps.firebase.values()
+}

@@ -1,0 +1,3 @@
+id = util-ui
+name = AndroidAppUtil - UI
+description = UI Util package, containing multiple extensions.

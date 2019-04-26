@@ -15,43 +15,48 @@ allprojects {
 
 dependencies {
     def versions = [
-        androidutil: 9
+        androidutil: 10
     ]
     
     /**
      * UI Util package, containing multiple extensions. 
      */
-    implementation "com.tailoredapps.androidutil:ui:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:util-ui:${versions.androidutil}"
     
     /**
      * Helper for asynchronous resource loading.
      */
-    implementation "com.tailoredapps.androidutil:async:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:util-async:${versions.androidutil}"
     
     /**
      * NetworkResponse and Retrofit extensions.
      */    
-    implementation "com.tailoredapps.androidutil:network:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:util-network:${versions.androidutil}"
     
     /**
      * A wrapper for nullable types. Mostly needed for Kotlin compliance with Java APIs such as RxJava.
      */    
-    implementation "com.tailoredapps.androidutil:optional:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:util-optional:${versions.androidutil}"
     
     /**
      * Android Manifest Permissions, only better.
      */    
-    implementation "com.tailoredapps.androidutil:permissions:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:util-permissions:${versions.androidutil}"
     
     /**
      * Validator and Rules for Value validation.
      */    
-    implementation "com.tailoredapps.androidutil:validation:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:util-validation:${versions.androidutil}"
     
     /**
      * Easily save and restore properties of views. 
      */    
-    implementation "com.tailoredapps.androidutil:viewstate:${versions.androidutil}"
+    implementation "com.tailoredapps.androidutil:util-viewstate:${versions.androidutil}"
+    
+    /**
+     * Helper for Firebase libraries. 
+     */    
+    implementation "com.tailoredapps.androidutil:util-firebase:${versions.androidutil}"
 }
 ```
 

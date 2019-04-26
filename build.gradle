@@ -1,10 +1,10 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    ext.libraryVersion = "9"
+    ext.libraryVersion = "10"
 
     ext.versions = [
-            kotlin: "1.3.30"
+            kotlin: "1.3.31"
     ]
 
     ext.deps = [
@@ -22,7 +22,13 @@ buildscript {
             ],
 
             retrofit    : 'com.squareup.retrofit2:retrofit:2.5.0',
-            gson        : 'com.google.code.gson:gson:2.8.5'
+            gson        : 'com.google.code.gson:gson:2.8.5',
+
+            firebase    : [
+                    core     : 'com.google.firebase:firebase-core:16.0.8',
+                    firestore: 'com.google.firebase:firebase-firestore:18.2.0',
+                    storage  : 'com.google.firebase:firebase-storage:16.1.0',
+            ],
     ]
 
     repositories {
@@ -31,7 +37,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
         classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18'
