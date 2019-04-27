@@ -17,6 +17,7 @@
 package com.tailoredapps.androidutil.ui.rxviews
 
 import android.view.View
+import androidx.annotation.CheckResult
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.reactivex.Observable
@@ -27,6 +28,7 @@ import io.reactivex.android.MainThreadDisposable
  * Returns an Observable that emits BottomSheetBehaviorEvent's of the BottomSheet.
  * Watch out, only one Event Listener can be set on a BottomSheet!
  */
+@CheckResult
 fun <T : View> T.bottomSheetEvents(): Observable<BottomSheetBehaviorEvent> {
     return BottomSheetBehaviorEventObservable(this)
 }
@@ -36,8 +38,9 @@ sealed class BottomSheetBehaviorEvent(val bottomSheetView: View) {
     class State(bottomSheetView: View, val newState: Int) : BottomSheetBehaviorEvent(bottomSheetView)
 }
 
-internal class BottomSheetBehaviorEventObservable(private val view: View) :
-    Observable<BottomSheetBehaviorEvent>() {
+internal class BottomSheetBehaviorEventObservable(
+    private val view: View
+) : Observable<BottomSheetBehaviorEvent>() {
     override fun subscribeActual(observer: Observer<in BottomSheetBehaviorEvent>) {
         if (view.layoutParams !is CoordinatorLayout.LayoutParams) {
             throw IllegalArgumentException("The view is not in a Coordinator Layout.")

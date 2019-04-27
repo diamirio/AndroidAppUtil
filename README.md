@@ -15,7 +15,7 @@ allprojects {
 
 dependencies {
     def versions = [
-        androidutil: 10
+        androidutil: 11
     ]
     
     /**
@@ -86,7 +86,7 @@ When creating a new module, do not forget to:
     <string name="library_aautil_libraryName">AndroidAppUtil</string>
     <string name="library_aautil_libraryDescription">AndroidUtil is a set of utility classes for Android application development.</string>
     <string name="library_aautil_libraryWebsite">https://github.com/tailoredmedia/AndroidAppUtil</string>
-    <string name="library_aautil_libraryVersion">10</string>
+    <string name="library_aautil_libraryVersion">11</string>
     <string name="library_aautil_isOpenSource">true</string>
     <string name="library_aautil_repositoryLink">https://github.com/tailoredmedia/AndroidAppUtil.git</string>
     <string name="library_aautil_classPath">com.tailoredapps.androidutil</string>
