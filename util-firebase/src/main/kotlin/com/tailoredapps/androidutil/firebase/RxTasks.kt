@@ -37,21 +37,23 @@ import io.reactivex.SingleEmitter
  * RxTasks.single { GoogleSignIn.getSignedInAccountFromIntent(data) }
  */
 object RxTasks {
-    fun <T> single(taskCreator: () -> Task<T>): Single<T> =
+    inline fun <T> single(crossinline taskCreator: () -> Task<T>): Single<T> =
         Single.create { taskCreator().singleEmitter(it) }
 
-    fun <T> completable(taskCreator: () -> Task<T>): Completable =
+    inline fun <T> completable(crossinline taskCreator: () -> Task<T>): Completable =
         Completable.create { taskCreator().completableEmitter(it) }
 
-    fun <T> maybe(taskCreator: () -> Task<T>): Maybe<T> =
+    inline fun <T> maybe(crossinline taskCreator: () -> Task<T>): Maybe<T> =
         Maybe.create { taskCreator().maybeEmitter(it) }
 
-    private fun <T> Task<T>.singleEmitter(emitter: SingleEmitter<T>) {
+    @PublishedApi
+    internal fun <T> Task<T>.singleEmitter(emitter: SingleEmitter<T>) {
         addOnSuccessListener(emitter::onSuccess)
         addOnFailureListener(emitter::onError)
     }
 
-    private fun <T> Task<T>.maybeEmitter(emitter: MaybeEmitter<T>) {
+    @PublishedApi
+    internal fun <T> Task<T>.maybeEmitter(emitter: MaybeEmitter<T>) {
         addOnSuccessListener {
             if (it == null) emitter.onComplete()
             else emitter.onSuccess(it)
@@ -59,7 +61,8 @@ object RxTasks {
         addOnFailureListener(emitter::onError)
     }
 
-    private fun <T> Task<T>.completableEmitter(emitter: CompletableEmitter) {
+    @PublishedApi
+    internal fun <T> Task<T>.completableEmitter(emitter: CompletableEmitter) {
         addOnSuccessListener { emitter.onComplete() }
         addOnFailureListener(emitter::onError)
     }
