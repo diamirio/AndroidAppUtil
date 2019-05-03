@@ -1,7 +1,7 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    ext.libraryVersion = "11"
+    ext.libraryVersion = "12"
 
     ext.versions = [
             kotlin: "1.3.31"

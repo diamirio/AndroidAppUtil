@@ -15,9 +15,14 @@ allprojects {
 
 dependencies {
     def versions = [
-        androidutil: 11
+        androidutil: 12
     ]
     
+    /**
+     * Base Util package, containing multiple extensions for Rx and Kotlin. 
+     */
+    implementation "com.tailoredapps.androidutil:util-base:${versions.androidutil}"
+
     /**
      * UI Util package, containing multiple extensions. 
      */

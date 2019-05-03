@@ -1,0 +1,3 @@
+id = util-base
+name = AndroidAppUtil - Base
+description = Collection of base extensions (Rx, Kotlin, etc.).
