@@ -55,3 +55,10 @@ fun <T : Any> Observable<T>.mapToAsync(): Observable<Async<T>> {
             }
         }
 }
+
+/**
+ * Extension function that returns this [Async] itself, but maps the element value if this is Success.
+ */
+fun <T : Any> Async<T>.mapIfSuccess(mapper: (T) -> T): Async<T> {
+    return if (this is Async.Success) Async.Success(mapper.invoke(this.element)) else this
+}
