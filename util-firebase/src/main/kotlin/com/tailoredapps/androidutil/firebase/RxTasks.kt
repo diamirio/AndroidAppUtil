@@ -67,3 +67,24 @@ object RxTasks {
         addOnFailureListener(emitter::onError)
     }
 }
+
+fun <T> Task<T>.asSingle(): Single<T> =
+    Single.create { emitter ->
+        addOnSuccessListener(emitter::onSuccess)
+        addOnFailureListener(emitter::onError)
+    }
+
+fun <T> Task<T>.asCompletable(): Completable =
+    Completable.create { emitter ->
+        addOnSuccessListener { emitter.onComplete() }
+        addOnFailureListener(emitter::onError)
+    }
+
+fun <T> Task<T>.asMaybe(): Maybe<T> =
+    Maybe.create { emitter ->
+        addOnSuccessListener {
+            if (it == null) emitter.onComplete()
+            else emitter.onSuccess(it)
+        }
+        addOnFailureListener(emitter::onError)
+    }
