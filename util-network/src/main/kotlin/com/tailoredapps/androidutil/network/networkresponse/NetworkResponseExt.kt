@@ -52,7 +52,25 @@ fun <SuccessType : Any> Observable<NetworkResponse<SuccessType>>.split(): Observ
  * Extension function that folds a [NetworkResponse] to a wrapped type that has an success and an error state.
  */
 @CheckReturnValue
+@Deprecated("Renamed function to reflect it's actual functionality", replaceWith = ReplaceWith("this.wrap(successCreator, errorCreator)"))
 fun <SuccessType : Any, Wrapper : Any> Single<NetworkResponse<SuccessType>>.fold(
+    successCreator: (element: SuccessType) -> Wrapper,
+    errorCreator: (error: Throwable) -> Wrapper
+): Single<out Wrapper> {
+    return map {
+        when (it) {
+            is NetworkResponse.Success -> successCreator(it.element)
+            is NetworkResponse.ServerError -> errorCreator(it.error)
+            is NetworkResponse.NetworkError -> errorCreator(it.error)
+        }
+    }
+}
+
+/**
+ * Extension function that maps a [NetworkResponse] to a wrapped type that has an success and an error state.
+ */
+@CheckReturnValue
+fun <SuccessType : Any, Wrapper : Any> Single<NetworkResponse<SuccessType>>.wrap(
     successCreator: (element: SuccessType) -> Wrapper,
     errorCreator: (error: Throwable) -> Wrapper
 ): Single<out Wrapper> {
@@ -69,7 +87,25 @@ fun <SuccessType : Any, Wrapper : Any> Single<NetworkResponse<SuccessType>>.fold
  * Extension function that folds a [NetworkResponse] to a wrapped type that has an success and an error state.
  */
 @CheckReturnValue
+@Deprecated("Renamed function to reflect it's actual functionality", replaceWith = ReplaceWith("this.wrap(successCreator, errorCreator)"))
 fun <SuccessType : Any, Wrapper : Any> Observable<NetworkResponse<SuccessType>>.fold(
+    successCreator: (element: SuccessType) -> Wrapper,
+    errorCreator: (error: Throwable) -> Wrapper
+): Observable<out Wrapper> {
+    return map {
+        when (it) {
+            is NetworkResponse.Success -> successCreator(it.element)
+            is NetworkResponse.ServerError -> errorCreator(it.error)
+            is NetworkResponse.NetworkError -> errorCreator(it.error)
+        }
+    }
+}
+
+/**
+ * Extension function that maps a [NetworkResponse] to a wrapped type that has an success and an error state.
+ */
+@CheckReturnValue
+fun <SuccessType : Any, Wrapper : Any> Observable<NetworkResponse<SuccessType>>.wrap(
     successCreator: (element: SuccessType) -> Wrapper,
     errorCreator: (error: Throwable) -> Wrapper
 ): Observable<out Wrapper> {

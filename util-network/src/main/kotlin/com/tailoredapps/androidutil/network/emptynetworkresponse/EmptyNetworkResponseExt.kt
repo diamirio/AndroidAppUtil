@@ -53,7 +53,25 @@ fun Observable<EmptyNetworkResponse>.split(): Observable<Unit> {
  * Extension function that folds a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
  */
 @CheckReturnValue
+@Deprecated("Renamed function to reflect it's actual functionality", replaceWith = ReplaceWith("this.wrap(successCreator, errorCreator)"))
 fun <Wrapper : Any> Single<EmptyNetworkResponse>.fold(
+    successCreator: () -> Wrapper,
+    errorCreator: (error: Throwable) -> Wrapper
+): Single<out Wrapper> {
+    return map {
+        when (it) {
+            is EmptyNetworkResponse.Success -> successCreator()
+            is EmptyNetworkResponse.ServerError -> errorCreator(it.error)
+            is EmptyNetworkResponse.NetworkError -> errorCreator(it.error)
+        }
+    }
+}
+
+/**
+ * Extension function that maps a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
+ */
+@CheckReturnValue
+fun <Wrapper : Any> Single<EmptyNetworkResponse>.wrap(
     successCreator: () -> Wrapper,
     errorCreator: (error: Throwable) -> Wrapper
 ): Single<out Wrapper> {
@@ -70,7 +88,25 @@ fun <Wrapper : Any> Single<EmptyNetworkResponse>.fold(
  * Extension function that folds a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
  */
 @CheckReturnValue
+@Deprecated("Renamed function to reflect it's actual functionality", replaceWith = ReplaceWith("this.wrap(successCreator, errorCreator)"))
 fun <Wrapper : Any> Observable<EmptyNetworkResponse>.fold(
+    successCreator: () -> Wrapper,
+    errorCreator: (error: Throwable) -> Wrapper
+): Observable<out Wrapper> {
+    return map {
+        when (it) {
+            is EmptyNetworkResponse.Success -> successCreator()
+            is EmptyNetworkResponse.ServerError -> errorCreator(it.error)
+            is EmptyNetworkResponse.NetworkError -> errorCreator(it.error)
+        }
+    }
+}
+
+/**
+ * Extension function that maps a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
+ */
+@CheckReturnValue
+fun <Wrapper : Any> Observable<EmptyNetworkResponse>.wrap(
     successCreator: () -> Wrapper,
     errorCreator: (error: Throwable) -> Wrapper
 ): Observable<out Wrapper> {
