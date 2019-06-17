@@ -68,7 +68,7 @@ fun <Wrapper : Any> Single<EmptyNetworkResponse>.fold(
 }
 
 /**
- * Extension function that folds a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
+ * Extension function that maps a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
  */
 @CheckReturnValue
 fun <Wrapper : Any> Single<EmptyNetworkResponse>.wrap(
@@ -103,7 +103,7 @@ fun <Wrapper : Any> Observable<EmptyNetworkResponse>.fold(
 }
 
 /**
- * Extension function that folds a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
+ * Extension function that maps a [EmptyNetworkResponse] to a wrapped type that has an success and an error state.
  */
 @CheckReturnValue
 fun <Wrapper : Any> Observable<EmptyNetworkResponse>.wrap(
