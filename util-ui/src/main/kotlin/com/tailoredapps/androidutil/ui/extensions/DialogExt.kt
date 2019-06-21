@@ -19,8 +19,10 @@ package com.tailoredapps.androidutil.ui.extensions
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.ArrayRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
@@ -35,6 +37,7 @@ sealed class RxDialogAction {
     object Neutral : RxDialogAction()
     object Cancelled : RxDialogAction()
     data class Selected<T>(val item: T, val index: Int) : RxDialogAction()
+    data class CustomViewAction<T>(val action: T? = null) : RxDialogAction()
 }
 
 /**
@@ -172,12 +175,9 @@ class RxAlert(
             if (displayMapping != null) displayMapping(elements[i])
             else elements[i].toString()
         }
-        builder.setItems(listItems) { _, which -> emitter.onSuccess(
-            RxDialogAction.Selected(
-                listItems[which],
-                which
-            )
-        ) }
+        builder.setItems(listItems) { _, which ->
+            emitter.onSuccess(RxDialogAction.Selected(listItems[which], which))
+        }
     }
 
     fun <T> setSingleChoiceItems(
@@ -206,6 +206,31 @@ class RxAlert(
             )
         }
     }
+
+    /**
+     * Usage:
+     * rxDialog {
+     *  setView { customAction: (RxDialogAction.CustomViewAction<Int>) -> Unit, dialogContext: Context ->
+     *      val view = dialogContext.inflate(....)
+     *      view.findViewById<Button>(R.id....).setOnClickListener {
+     *          customAction.invoke(RxDialogAction.CustomViewAction(1))
+     *      }
+     *      view
+     *  }
+     * }
+     */
+    fun <T> setView(
+        viewCreator: (customAction: (RxDialogAction.CustomViewAction<T>) -> Unit, dialogContext: Context) -> View
+    ) {
+        builder.setView(viewCreator.invoke(emitter::onSuccess, builder.context))
+    }
+
+    @setparam:LayoutRes
+    var viewResource: Int
+        get() = throw RuntimeException("No getter.")
+        set(value) {
+            builder.setView(value)
+        }
 
     fun build(): AlertDialog = builder.create()
 }
