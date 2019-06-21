@@ -9,5 +9,5 @@ android {
 dependencies {
     implementation deps.rxjava2.core
     implementation deps.rxjava2.kotlin
-    implementation deps.firebase.values()
+    api deps.firebase.values()
 }
