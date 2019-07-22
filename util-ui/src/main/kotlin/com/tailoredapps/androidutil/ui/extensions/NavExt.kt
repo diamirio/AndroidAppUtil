@@ -31,7 +31,7 @@ fun <I : Intent> I.extras(vararg params: Pair<String, Any>): I = apply { putExtr
 /**
  * Lazily retrieves an extra from an the activity intent.
  */
-inline fun <A : Activity, reified T : Any> A.extra(key: String, defaultValue: T? = null): Lazy<T> = lazy {
+inline fun <A : Activity, reified T : Any?> A.extra(key: String, defaultValue: T? = null): Lazy<T> = lazy {
     if (defaultValue == null) intent.extras?.get(key) as T
     else intent.extras?.get(key) as? T ?: defaultValue
 }
@@ -44,7 +44,7 @@ fun <F : Fragment> F.args(vararg params: Pair<String, Any>): F = apply { argumen
 /**
  * Lazily retrieves an argument from the fragment arguments.
  */
-inline fun <F : Fragment, reified T : Any> F.argument(key: String, defaultValue: T? = null): Lazy<T> = lazy {
+inline fun <F : Fragment, reified T : Any?> F.argument(key: String, defaultValue: T? = null): Lazy<T> = lazy {
     if (defaultValue == null) arguments?.get(key) as T
     else arguments?.get(key) as? T ?: defaultValue
 }
