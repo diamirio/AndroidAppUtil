@@ -16,13 +16,14 @@
 
 package com.tailoredapps.androidutil.async
 
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.annotations.Experimental
 
 /**
- * Extension function that materializes an [Single] and maps the resulting Notification to the [Async] type.
+ * Extension function that materializes a [Single] and maps the resulting Notification to the [Async] type.
  */
 @Experimental
 @CheckReturnValue
@@ -34,6 +35,25 @@ fun <T : Any> Single<T>.mapToAsync(): Single<Async<T>> {
             when {
                 it.isOnNext && value != null -> Single.just(Async.Success(value))
                 it.isOnError && error != null -> Single.just(Async.Error(error))
+                else -> Single.never()
+            }
+        }
+}
+
+/**
+ * Extension function that materializes a [Maybe] and maps the resulting Notification to the [Async] type.
+ */
+@Experimental
+@CheckReturnValue
+fun <T : Any> Maybe<T>.mapToAsync(onComplete: () -> Async<T> = { Async.Error(NoSuchElementException()) }): Single<Async<T>> {
+    return materialize()
+        .flatMap {
+            val value = it.value
+            val error = it.error
+            when {
+                it.isOnNext && value != null -> Single.just(Async.Success(value))
+                it.isOnError && error != null -> Single.just(Async.Error(error))
+                it.isOnComplete -> Single.just(onComplete())
                 else -> Single.never()
             }
         }
