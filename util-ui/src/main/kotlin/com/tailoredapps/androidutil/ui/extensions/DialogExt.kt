@@ -156,13 +156,7 @@ class RxAlert(
         get() = throw RuntimeException("No getter.")
         set(value) {
             builder.setItems(value) { _, which ->
-                emitter.onSuccess(
-                    RxDialogAction.Selected(
-                        context.resources.getStringArray(
-                            value
-                        )[which], which
-                    )
-                )
+                emitter.onSuccess(RxDialogAction.Selected(context.resources.getStringArray(value)[which], which))
             }
         }
 
@@ -176,7 +170,7 @@ class RxAlert(
             else elements[i].toString()
         }
         builder.setItems(listItems) { _, which ->
-            emitter.onSuccess(RxDialogAction.Selected(listItems[which], which))
+            emitter.onSuccess(RxDialogAction.Selected(elements[which], which))
         }
     }
 
@@ -198,12 +192,7 @@ class RxAlert(
             else elements[i].toString()
         }
         builder.setSingleChoiceItems(listItems, presetIndex) { _, which ->
-            emitter.onSuccess(
-                RxDialogAction.Selected(
-                    elements[which],
-                    which
-                )
-            )
+            emitter.onSuccess(RxDialogAction.Selected(elements[which], which))
         }
     }
 
