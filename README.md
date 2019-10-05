@@ -1,6 +1,6 @@
 # AndroidUtil
 
-![AndroidUtil](https://img.shields.io/badge/TailoredApps-AndroidUtil-blue.svg)
+![version](https://img.shields.io/github/v/tag/tailoredmedia/AndroidAppUtil?color=green&label=version) ![AndroidUtil](https://img.shields.io/badge/TailoredApps-AndroidUtil-blue.svg)
 
 AndroidUtil is a set of utility classes for Android application development.
 
@@ -14,10 +14,6 @@ allprojects {
 }
 
 dependencies {
-    def versions = [
-        androidutil: 16
-    ]
-    
     /**
      * Base Util package, containing multiple extensions for Rx and Kotlin. 
      */
@@ -75,7 +71,7 @@ When creating a new module, do not forget to:
 
 ## Build and Deploy
 
-1. Increment `libraryVersion` in `build.gradle` of `Project: AndroidAppUtil`. Increment version in *README.md*
+1. Increment `libraryVersion` in `build.gradle` of `Project: AndroidAppUtil`.
 2. `fastlane deploy` to build and upload to bintray.
 3. Commit your changes, tag your new version and push to repository.
 
