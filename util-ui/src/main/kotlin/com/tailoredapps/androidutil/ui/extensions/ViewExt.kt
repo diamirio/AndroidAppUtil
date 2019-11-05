@@ -16,29 +16,22 @@
 
 package com.tailoredapps.androidutil.ui.extensions
 
-import android.app.Activity
-import android.content.Context
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.inputmethod.InputMethodManager
+import com.tailoredapps.androidutil.ui.keyboard.hideKeyboard
+import com.tailoredapps.androidutil.ui.keyboard.showKeyboard
 
 /**
  * Shows the keyboard for a view and focuses it.
  */
-fun <V : View> V.showKeyBoard() {
-    requestFocus()
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-}
+@Deprecated(message = "Moved to .ui.keyboard.KeyboardExt", replaceWith = ReplaceWith("showKeyboard()"), level = DeprecationLevel.WARNING)
+fun <V : View> V.showKeyBoard() = showKeyboard()
 
 /**
  * Hides the keyboard for a view and unfocuses it.
  */
-fun <V : View> V.hideKeyboard() {
-    val inputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    if (inputMethodManager.isActive) inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-    clearFocus()
-}
+@Deprecated(message = "Moved to .ui.keyboard.KeyboardExt", replaceWith = ReplaceWith("hideKeyboard()"), level = DeprecationLevel.WARNING)
+fun <V : View> V.hideKeyboard() = hideKeyboard()
 
 /**
  * Waits until the view is measured until the function is invoked.
