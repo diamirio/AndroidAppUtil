@@ -8,6 +8,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 import io.reactivex.subjects.BehaviorSubject
 
 /**
@@ -20,6 +22,8 @@ class KeyboardStateManager(private val activity: AppCompatActivity) : LifecycleO
 
     private val stateSubject = BehaviorSubject.create<KeyboardStatus>()
 
+    private val stateDisposable: Disposable
+
     init {
         activity.lifecycle.addObserver(this)
         /**
@@ -27,7 +31,7 @@ class KeyboardStateManager(private val activity: AppCompatActivity) : LifecycleO
          * Global Layout Listener which is automatically removed when this
          * observable is disposed.
          */
-        Observable.create<KeyboardStatus> { emitter ->
+        stateDisposable = Observable.create<KeyboardStatus> { emitter ->
             val rootView = activity.findViewById<View>(android.R.id.content)
 
             // why are we using a global layout listener? Surely Android
@@ -58,7 +62,7 @@ class KeyboardStateManager(private val activity: AppCompatActivity) : LifecycleO
                 rootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
             }
         }.distinctUntilChanged()
-            .subscribe(stateSubject)
+            .subscribe(stateSubject::onNext)
     }
 
     val status: Observable<KeyboardStatus>
@@ -73,6 +77,7 @@ class KeyboardStateManager(private val activity: AppCompatActivity) : LifecycleO
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
         stateSubject.onComplete()
+        stateDisposable.dispose()
         activity.lifecycle.removeObserver(this)
     }
 }
