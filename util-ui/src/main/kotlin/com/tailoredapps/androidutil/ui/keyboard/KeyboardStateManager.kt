@@ -1,62 +1,82 @@
 package com.tailoredapps.androidutil.ui.keyboard
 
-import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Created by alexandergrafl on 2019-11-05.
- * Credit to https://medium.com/@munnsthoughts/detecting-if-the-android-keyboard-is-open-using-kotlin-rxjava-2-8aee9fae262c
  * Manages access to the Android soft keyboard.
+ * Credit to https://medium.com/@munnsthoughts/detecting-if-the-android-keyboard-is-open-using-kotlin-rxjava-2-8aee9fae262c
+ * Use with care: This class keeps a reference to the view/activity!
  */
-class KeyboardStateManager(private val activity: Activity) {
+class KeyboardStateManager(private val activity: AppCompatActivity) : LifecycleObserver {
 
-    /**
-     * Observable of the status of the keyboard. Subscribing to this creates a
-     * Global Layout Listener which is automatically removed when this
-     * observable is disposed.
-     */
-    fun status() = Observable.create<KeyboardStatus> { emitter ->
-        val rootView = activity.findViewById<View>(android.R.id.content)
+    private val stateSubject = BehaviorSubject.create<KeyboardStatus>()
 
-        // why are we using a global layout listener? Surely Android
-        // has callback for when the keyboard is open or closed? Surely
-        // Android at least lets you query the status of the keyboard?
-        // Nope! https://stackoverflow.com/questions/4745988/
-        val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+    init {
+        activity.lifecycle.addObserver(this)
+        /**
+         * Observable of the status of the keyboard. Subscribing to this creates a
+         * Global Layout Listener which is automatically removed when this
+         * observable is disposed.
+         */
+        Observable.create<KeyboardStatus> { emitter ->
+            val rootView = activity.findViewById<View>(android.R.id.content)
 
-            val rect = Rect().apply { rootView.getWindowVisibleDisplayFrame(this) }
+            // why are we using a global layout listener? Surely Android
+            // has callback for when the keyboard is open or closed? Surely
+            // Android at least lets you query the status of the keyboard?
+            // Nope! https://stackoverflow.com/questions/4745988/
+            val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
 
-            val screenHeight = rootView.height
+                val rect = Rect().apply { rootView.getWindowVisibleDisplayFrame(this) }
 
-            // rect.bottom is the position above soft keypad or device button.
-            // if keypad is shown, the rect.bottom is smaller than that before.
-            val keypadHeight = screenHeight - rect.bottom
+                val screenHeight = rootView.height
 
-            // 0.15 ratio is perhaps enough to determine keypad height.
-            if (keypadHeight > screenHeight * 0.15) {
-                emitter.onNext(KeyboardStatus.OPEN)
-            } else {
-                emitter.onNext(KeyboardStatus.CLOSED)
+                // rect.bottom is the position above soft keypad or device button.
+                // if keypad is shown, the rect.bottom is smaller than that before.
+                val keypadHeight = screenHeight - rect.bottom
+
+                // 0.15 ratio is perhaps enough to determine keypad height.
+                if (keypadHeight > screenHeight * 0.15) {
+                    emitter.onNext(KeyboardStatus.OPEN)
+                } else {
+                    emitter.onNext(KeyboardStatus.CLOSED)
+                }
             }
-        }
 
-        rootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+            rootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
 
-        emitter.setCancellable {
-            rootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
-        }
+            emitter.setCancellable {
+                rootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+            }
+        }.distinctUntilChanged()
+            .subscribe(stateSubject)
+    }
 
-    }.distinctUntilChanged()
+    val status: Observable<KeyboardStatus>
+        get() = stateSubject.hide()
 
-    fun currentStatus(): Single<KeyboardStatus> = status().share().singleOrError()
+    val currentStatus: KeyboardStatus
+        get() = stateSubject.value ?: KeyboardStatus.UNKNOWN
 
-    fun isKeyboardOpen(): Single<Boolean>  = currentStatus().map { it == KeyboardStatus.OPEN }
+    val isKeyboardOpen: Boolean
+        get() = currentStatus == KeyboardStatus.OPEN
+
+    @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
+    fun onDestroy() {
+        stateSubject.onComplete()
+        activity.lifecycle.removeObserver(this)
+    }
 }
 
 enum class KeyboardStatus {
-    OPEN, CLOSED
+    OPEN, CLOSED, UNKNOWN
 }
